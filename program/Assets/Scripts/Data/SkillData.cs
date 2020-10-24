@@ -1,7 +1,12 @@
 [System.Serializable]
 public class SkillData
 {
-        
+    #region Serializable
+    public int index;
+    public EnumSkillType skillType;
+    #endregion
+    
+    public int Level { get; set; }
 }
 
 [System.Serializable]

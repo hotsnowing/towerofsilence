@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEditor;
 #endif
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class StartingCharacter : ScriptableObject
 {
-    public List<CharacterContainer> characterList = new List<CharacterContainer>();
+    public List<int> characterIndexList = new List<int>();
 
     [MenuItem("Scriptable/StartingCharacter/Create")]
     public static void Create()
@@ -27,9 +26,4 @@ public class StartingCharacter : ScriptableObject
     
 }
 
-[System.Serializable]
-public class CharacterContainer
-{
-    public EnumCharacterJob characterJob;
-    public List<EnumSkillType> skillTypeList;
-}
+

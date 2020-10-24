@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,11 +8,39 @@ using UnityEngine.UI;
 public class IntroScene : MonoBehaviour
 {
     [SerializeField] private CharacterSelectionView characterSelectionView;
+    [SerializeField] private TextMeshProUGUI txtStage;
+    
+    
+    [SerializeField] private GameObject introView;
+    [SerializeField] private GameObject selectionView;
+    [SerializeField] private GameObject stageView;
+    
     private List<CharacterSelectionView> characterList = new List<CharacterSelectionView>();
+
+    private void Awake()
+    {
+        GameManager.Instance.Initialize();
+        
+        introView.SetActive(true);
+        selectionView.SetActive(false);
+        stageView.SetActive(false);
+    }
     
     public void OnClickStartButton()
     {
+        introView.SetActive(false);
+        selectionView.SetActive(true);
+        stageView.SetActive(false);
+        
         StartCoroutine(CoRoutineAtIntro());
+    }
+
+    public void OnClickSelectCharacter(CharacterSelectionView selectionView)
+    {
+        var selectedCharacterIndex = GameDataManager.Instance.SelectedStartingCharacter.characterIndexList[selectionView.Index];
+
+        GameDataManager.Instance.savedMyCharacterList.Add(GameDataManager.Instance.GetCharacter(selectedCharacterIndex));
+        GameDataManager.Instance.Save();
     }
 
     private IEnumerator CoRoutineAtIntro()
@@ -24,8 +53,15 @@ public class IntroScene : MonoBehaviour
 
     private IEnumerator CoSelectCharacter()
     {
+        if (GameDataManager.Instance.savedMyCharacterList.Count > 0)
+        {
+            yield break;
+        }
+        
+        characterSelectionView.gameObject.SetActive(true);
         ShowCharacters();
-        while (GameDataManager.Instance.SelectedCharacter)
+        
+        while (GameDataManager.Instance.savedMyCharacterList.Count < 1)
         {
             yield return null;
         }
@@ -33,9 +69,6 @@ public class IntroScene : MonoBehaviour
 
     private void ShowCharacters()
     {
-        var scriptable = StartingCharacter.Load();
-        
-        characterSelectionView.gameObject.SetActive(true);
         var parent = characterSelectionView.transform.parent;
         const int ITEM_COUNT = 3;
 
@@ -48,15 +81,29 @@ public class IntroScene : MonoBehaviour
 
         for (int i = 0; i < ITEM_COUNT; ++i)
         {
-            var data = scriptable.characterList[i];
+            var index = GameDataManager.Instance.SelectedStartingCharacter.characterIndexList[i];
+            CharacterData characterData;
+            List<SkillData> skillDataList;
+            
+            GameDataManager.Instance.GetCharacterAndSkill(index,out characterData,out skillDataList);
             
             var characterHandle = characterList[i];
-            characterHandle.Set(data.characterJob, data.skillTypeList);
+            characterHandle.Set(i,characterData, skillDataList);
         }
     }
 
     private IEnumerator CoMoveCharacterToCurrentStage()
     {
+        introView.SetActive(false);
+        selectionView.SetActive(false);
+        stageView.SetActive(true);
+        
+        txtStage.text = GameDataManager.Instance.CurrentStage.ToString();
+        for (int i = 0; i < characterList.Count; ++i)
+        {
+            characterList[i].gameObject.SetActive(false);
+        }
+        
         while (true)
         {
             yield return null;

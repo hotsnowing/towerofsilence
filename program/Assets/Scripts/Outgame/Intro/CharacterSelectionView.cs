@@ -6,16 +6,19 @@ public class CharacterSelectionView:MonoBehaviour
     [SerializeField] private TextMeshProUGUI txtJob;
 
     [SerializeField] private List<CharacterSkillView> skillViewList;
+    
+    public int Index { get; set; }
 
-    public void Set(EnumCharacterJob job,List<EnumSkillType> skillList)
+    public void Set(int itemIndex,CharacterData characterData ,List<SkillData> skillList)
     {
-        txtJob.text = job.ToString();
+        Index = itemIndex;
+        txtJob.text = characterData.job.ToString();
         
         Debug.Assert(skillViewList.Count == skillList.Count, "[Skill]Invalid List Count");
 
         for (int i = 0; i<skillList.Count; ++i)
         {
-            skillViewList[i].Set(skillList[i]);
+            skillViewList[i].Set(skillList[i].skillType);
         }
     }
 }

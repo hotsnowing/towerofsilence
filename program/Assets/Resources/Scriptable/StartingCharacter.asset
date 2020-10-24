@@ -12,10 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 515fb6bae23e4d9d9a9f461ffc6bb0d9, type: 3}
   m_Name: StartingCharacter
   m_EditorClassIdentifier: 
-  characterList:
-  - characterJob: 0
-    skillTypeList: 000000000100000002000000
-  - characterJob: 1
-    skillTypeList: 000000000100000003000000
-  - characterJob: 2
-    skillTypeList: 010000000300000004000000
+  characterIndexList: 000000000100000002000000
