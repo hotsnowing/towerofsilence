@@ -21,16 +21,16 @@ public class MapManager : ScriptableObject
     }
     public List<MapData> mapDataList = new List<MapData>();
     
+#if UNITY_EDITOR
     [MenuItem("Scriptable/MapData/Create")]
     public static void Create()
     {
         var instance = ScriptableObject.CreateInstance<MapManager>();
-#if UNITY_EDITOR
         AssetDatabase.CreateAsset(instance, "Assets/Resources/Scriptable/MapData.asset");
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-#endif
     }
+#endif
 
     public static MapManager Load()
     {
