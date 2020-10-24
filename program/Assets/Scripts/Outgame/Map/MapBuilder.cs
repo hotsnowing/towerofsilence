@@ -8,6 +8,7 @@ public class MapBuilder : Singleton<MapBuilder>
     {
         for (int i = 0; i < MapManager.Instance.mapDataList.Count; ++i)
         {
+            // 고민중...
             
         }
     }
