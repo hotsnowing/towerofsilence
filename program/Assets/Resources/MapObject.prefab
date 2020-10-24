@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 741023051775618517}
   - component: {fileID: 8963195321770717462}
   m_Layer: 5
-  m_Name: TxtPartner
+  m_Name: TxtNpc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 2419949400569037595}
   - component: {fileID: 9019739369548477424}
   m_Layer: 5
-  m_Name: TxtBoss
+  m_Name: TxtRest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -537,7 +537,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: boss
+  m_text: rest
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -648,7 +648,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 85, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5339268785403291628
 CanvasRenderer:
@@ -701,8 +701,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txtStage: {fileID: 1196915976206606757}
   monster: {fileID: 2739841208086113551}
-  partner: {fileID: 3359840303771168689}
-  boss: {fileID: 4158431840757562844}
+  npc: {fileID: 3359840303771168689}
+  rest: {fileID: 4158431840757562844}
   mark: {fileID: 3844684952071497933}
   button: {fileID: 7924111793884908890}
 --- !u!114 &7924111793884908890

@@ -1,15 +1,18 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MapObject : MonoBehaviour
 {
     public int Index { get; set; }
     [SerializeField] private TextMeshProUGUI txtStage;
+    
     [SerializeField] private GameObject monster;
-    [SerializeField] private GameObject partner;
-    [SerializeField] private GameObject boss;
+    [SerializeField] private GameObject npc;
+    [SerializeField] private GameObject rest;
+    
     [SerializeField] private GameObject mark;
     [SerializeField] private Button button;
     
@@ -29,10 +32,25 @@ public class MapObject : MonoBehaviour
         txtStage.text = (data.index+1).ToString();
         Index = data.index;
         monster.SetActive(data.mapType == EnumMapType.MONSTER);
-        partner.SetActive(data.mapType == EnumMapType.PARTNER);
-        boss.SetActive(data.mapType == EnumMapType.BOSS);
+        npc.SetActive(data.mapType == EnumMapType.NPC);
 
         bool interactable = GameDataManager.Instance.CurrentStage == Index + 1;
+        mark.SetActive(interactable);
+        button.interactable = interactable;
+    }
+    
+    public void SetDataTemp(bool isCleared)
+    {
+        txtStage.text = string.Empty;
+
+        bool isMonster = Random.Range(0, 100) > 70;
+        var mapType = isMonster ? (int)EnumMapType.MONSTER : Random.Range(0, (int)EnumMapType.BOSS);
+
+        monster.SetActive(mapType == (int)EnumMapType.MONSTER);
+        npc.SetActive(mapType == (int) EnumMapType.NPC);
+        rest.SetActive(mapType == (int)EnumMapType.REST);
+
+        bool interactable = isCleared;
         mark.SetActive(interactable);
         button.interactable = interactable;
     }

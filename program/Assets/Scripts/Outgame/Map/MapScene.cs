@@ -5,43 +5,48 @@ using UnityEngine.SceneManagement;
 
 public class MapScene : MonoBehaviour
 {
+    [SerializeField] private List<MapRowContainer> rowContainerList = new List<MapRowContainer>();
     private List<MapObject> mapObjectList = new List<MapObject>();
 
     [SerializeField] private RectTransform mapParent;
     
-    void Awake()
+    void Start()
     {
         int stage = GameDataManager.Instance.CurrentStage;
 
-        var mapBuilder = MapBuilder.Instance;
-
-        for (int i = 0; i < MapManager.Instance.mapDataList.Count; ++i)
+        const int colCount = 8;
+        bool first = true;
+        for (int i = 0; i < rowContainerList.Count; ++i)
         {
-            var mapData = MapManager.Instance.mapDataList[i];
-            var mapObject = MapObject.Load(mapParent);
-            mapObjectList.Add(mapObject);
-            mapObject.SetData(mapData);
-            mapObject.GetComponent<RectTransform>().anchoredPosition = mapData.mapPosition;
-        }
-    }
+            var row = rowContainerList[i];
+            int spawnCount = Random.Range(1, 4);
+            
+            List<int> reserved = new List<int>();
+            for (int j = 0; j < colCount; ++j)
+            {
+                reserved.Add(j);
+            }
 
-    private void BuildMapObjects()
-    {
-        
-    }
-
-#if UNITY_EDITOR
-    [ContextMenu("Save Position")]
-    private void SaveMapPosition()
-    {
-        for (int i = 0; i < mapObjectList.Count; ++i)
-        {
-            var obj = mapObjectList[i];
-            var findItem = MapManager.Instance.mapDataList.Find(item => item.index == obj.Index);
-            findItem.mapPosition = obj.GetComponent<RectTransform>().anchoredPosition;
+            for (int j = 0; j < spawnCount; ++j)
+            {
+                int index = Random.Range(0, reserved.Count);
+                int value = reserved[index];
+                reserved.RemoveAt(index);
+                
+                var mapObject = MapObject.Load(row.children[value]);
+                mapObject.SetDataTemp(first);
+                
+                if (first)
+                    first = false;
+            }
         }
         
-        UnityEditor.EditorUtility.SetDirty(MapManager.Instance);
+//        for (int i = 0; i < MapManager.Instance.mapDataList.Count; ++i)
+//        {
+//            var mapData = MapManager.Instance.mapDataList[i];
+//            var mapObject = MapObject.Load(mapParent);
+//            mapObjectList.Add(mapObject);
+//            mapObject.SetData(mapData);
+//        }
     }
-#endif
 }

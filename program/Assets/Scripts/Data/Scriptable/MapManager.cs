@@ -43,14 +43,14 @@ public class MapManager : ScriptableObject
 public class MapData
 {
     public int index;
-    public int nextIndex = -1;
     public EnumMapType mapType;
-    public Vector2 mapPosition;
 }
 
 public enum EnumMapType
 {
     MONSTER=0,
-    PARTNER=1,
-    BOSS=2,
+    NPC=1,
+    REST = 2,
+    
+    BOSS=3,
 }
