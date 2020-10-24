@@ -33,6 +33,7 @@ public class MapObject : MonoBehaviour
         Index = data.index;
         monster.SetActive(data.mapType == EnumMapType.MONSTER);
         npc.SetActive(data.mapType == EnumMapType.NPC);
+        rest.SetActive(data.mapType == EnumMapType.REST);
 
         bool interactable = GameDataManager.Instance.CurrentStage == Index + 1;
         mark.SetActive(interactable);
@@ -43,7 +44,7 @@ public class MapObject : MonoBehaviour
     {
         txtStage.text = string.Empty;
 
-        bool isMonster = Random.Range(0, 100) > 70;
+        bool isMonster = Random.Range(0, 100) > 50;
         var mapType = isMonster ? (int)EnumMapType.MONSTER : Random.Range(0, (int)EnumMapType.BOSS);
 
         monster.SetActive(mapType == (int)EnumMapType.MONSTER);
