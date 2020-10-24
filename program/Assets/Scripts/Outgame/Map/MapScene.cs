@@ -12,6 +12,8 @@ public class MapScene : MonoBehaviour
     {
         int stage = GameDataManager.Instance.CurrentStage;
 
+        var mapBuilder = MapBuilder.Instance;
+
         for (int i = 0; i < MapManager.Instance.mapDataList.Count; ++i)
         {
             var mapData = MapManager.Instance.mapDataList[i];
@@ -22,7 +24,12 @@ public class MapScene : MonoBehaviour
         }
     }
 
-    #if UNITY_EDITOR
+    private void BuildMapObjects()
+    {
+        
+    }
+
+#if UNITY_EDITOR
     [ContextMenu("Save Position")]
     private void SaveMapPosition()
     {
@@ -35,5 +42,5 @@ public class MapScene : MonoBehaviour
         
         UnityEditor.EditorUtility.SetDirty(MapManager.Instance);
     }
-    #endif
+#endif
 }

@@ -32,7 +32,7 @@ public class MapObject : MonoBehaviour
         partner.SetActive(data.mapType == EnumMapType.PARTNER);
         boss.SetActive(data.mapType == EnumMapType.BOSS);
 
-        bool interactable = GameDataManager.Instance.CurrentStage == Index - 1;
+        bool interactable = GameDataManager.Instance.CurrentStage == Index + 1;
         mark.SetActive(interactable);
         button.interactable = interactable;
     }
