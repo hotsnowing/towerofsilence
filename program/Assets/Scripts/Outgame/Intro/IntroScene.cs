@@ -60,7 +60,6 @@ public class IntroScene : MonoBehaviour
     private IEnumerator CoRoutineAtIntro()
     {
         yield return StartCoroutine(CoSelectCharacter());
-        yield return StartCoroutine(CoMoveCharacterToCurrentStage());
 
         MoveToMapScene();
     }
@@ -79,6 +78,8 @@ public class IntroScene : MonoBehaviour
         {
             yield return null;
         }
+        
+        yield return StartCoroutine(CoMoveCharacterToCurrentStage());
     }
 
     private void ShowCharacters()
@@ -136,6 +137,6 @@ public class IntroScene : MonoBehaviour
 
     private void MoveToMapScene()
     {
-        SceneManager.LoadScene("Ingame");
+        SceneManager.LoadScene("Map");
     }
 }

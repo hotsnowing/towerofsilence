@@ -26,7 +26,7 @@ public class MapObject : MonoBehaviour
 
     public void SetData(MapData data)
     {
-        txtStage.text = data.index.ToString();
+        txtStage.text = (data.index+1).ToString();
         Index = data.index;
         monster.SetActive(data.mapType == EnumMapType.MONSTER);
         partner.SetActive(data.mapType == EnumMapType.PARTNER);
