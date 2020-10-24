@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class GameDataManager : ScriptableObject
 {
+    [System.Serializable]
+    public class SaveData
+    {
+        public List<CharacterData> characterList = new List<CharacterData>();
+    }
+    
     public List<CharacterData> characterDataList = new List<CharacterData>();
     public List<SkillData> skillDataList = new List<SkillData>();
     
     #region SavedData
     private const string SAVE_DATA_KEY = @"GameDataManager.SavedData";
-    
-    [System.NonSerialized]
-    public List<CharacterData> savedMyCharacterList = new List<CharacterData>();
+
+    public SaveData saveData = new SaveData();
     
     public int CurrentStage
     {
@@ -61,21 +66,17 @@ public class GameDataManager : ScriptableObject
     {
         string data = PlayerPrefs.GetString(SAVE_DATA_KEY, string.Empty);
         
-        var list = JsonUtility.FromJson<List<CharacterData>>(data);
-        if (list != null)
+        var deserialized = JsonUtility.FromJson<SaveData>(data);
+        if ( deserialized != null)
         {
-            savedMyCharacterList = list;
+            saveData = deserialized;
         }
-        
     }
 
     public void Save()
     {
-        if (savedMyCharacterList != null)
-        {
-            string data = JsonUtility.ToJson(savedMyCharacterList);
-            PlayerPrefs.SetString(SAVE_DATA_KEY, data);
-        }
+        string data = JsonUtility.ToJson(saveData);
+        PlayerPrefs.SetString(SAVE_DATA_KEY, data);
     }
 
     private StartingCharacter selectedStartingCharacter = null;

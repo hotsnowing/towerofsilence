@@ -35,11 +35,16 @@ public class IntroScene : MonoBehaviour
         StartCoroutine(CoRoutineAtIntro());
     }
 
+    public void OnClickResetButton()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
     public void OnClickSelectCharacter(CharacterSelectionView selectionView)
     {
         var selectedCharacterIndex = GameDataManager.Instance.SelectedStartingCharacter.characterIndexList[selectionView.Index];
 
-        GameDataManager.Instance.savedMyCharacterList.Add(GameDataManager.Instance.GetCharacter(selectedCharacterIndex));
+        GameDataManager.Instance.saveData.characterList.Add(GameDataManager.Instance.GetCharacter(selectedCharacterIndex));
         GameDataManager.Instance.Save();
     }
 
@@ -53,7 +58,7 @@ public class IntroScene : MonoBehaviour
 
     private IEnumerator CoSelectCharacter()
     {
-        if (GameDataManager.Instance.savedMyCharacterList.Count > 0)
+        if (GameDataManager.Instance.saveData.characterList.Count > 0)
         {
             yield break;
         }
@@ -61,7 +66,7 @@ public class IntroScene : MonoBehaviour
         characterSelectionView.gameObject.SetActive(true);
         ShowCharacters();
         
-        while (GameDataManager.Instance.savedMyCharacterList.Count < 1)
+        while (GameDataManager.Instance.saveData.characterList.Count < 1)
         {
             yield return null;
         }
