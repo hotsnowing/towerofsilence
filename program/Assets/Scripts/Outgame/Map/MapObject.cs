@@ -40,7 +40,7 @@ public class MapObject : MonoBehaviour
         button.interactable = interactable;
     }
     
-    public void SetDataTemp(bool isCleared)
+    public void SetDataTemp(bool isActive)
     {
         txtStage.text = string.Empty;
 
@@ -51,7 +51,7 @@ public class MapObject : MonoBehaviour
         npc.SetActive(mapType == (int) EnumMapType.NPC);
         rest.SetActive(mapType == (int)EnumMapType.REST);
 
-        bool interactable = isCleared;
+        bool interactable = isActive;
         mark.SetActive(interactable);
         button.interactable = interactable;
     }

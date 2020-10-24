@@ -23,7 +23,6 @@ public class MapScene : MonoBehaviour
         int stage = GameDataManager.Instance.CurrentStage;
 
         const int colCount = 8;
-        bool first = true;
         Dictionary<int, List<MapObject>> dictionary = new Dictionary<int, List<MapObject>>();
         for (int i = 0; i < rowContainerList.Count; ++i)
         {
@@ -39,6 +38,8 @@ public class MapScene : MonoBehaviour
             {
                 reserved.Add(j);
             }
+                
+            int activeIndex = Random.Range(0, spawnCount);
 
             for (int j = 0; j < spawnCount; ++j)
             {
@@ -47,16 +48,14 @@ public class MapScene : MonoBehaviour
                 reserved.RemoveAt(index);
                 
                 var mapObject = MapObject.Load(row.children[value]);
-                mapObject.SetDataTemp(first);
+                bool isActive = GameDataManager.Instance.CurrentStage - 1 == i && activeIndex == j;
+                mapObject.SetDataTemp(isActive);
 
                 if (dictionary.ContainsKey(i) == false)
                 {
                     dictionary.Add(i, new List<MapObject>());
                 }
                 dictionary[i].Add(mapObject);
-                
-                if (first)
-                    first = false;
             }
         }
 
