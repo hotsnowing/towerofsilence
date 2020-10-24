@@ -22,6 +22,7 @@ public class MapScene : MonoBehaviour
         }
     }
 
+    #if UNITY_EDITOR
     [ContextMenu("Save Position")]
     private void SaveMapPosition()
     {
@@ -32,5 +33,7 @@ public class MapScene : MonoBehaviour
             findItem.mapPosition = obj.GetComponent<RectTransform>().anchoredPosition;
         }
         
+        UnityEditor.EditorUtility.SetDirty(MapManager.Instance);
     }
+    #endif
 }

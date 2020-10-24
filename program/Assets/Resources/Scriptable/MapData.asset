@@ -16,16 +16,16 @@ MonoBehaviour:
   - index: 0
     nextIndex: 1
     mapType: 0
-    mapPosition: {x: 0, y: 0}
+    mapPosition: {x: -66, y: 145}
   - index: 1
     nextIndex: 2
     mapType: 1
-    mapPosition: {x: 0, y: 0}
+    mapPosition: {x: 134, y: 85}
   - index: 2
     nextIndex: 3
     mapType: 0
-    mapPosition: {x: 0, y: 0}
+    mapPosition: {x: -46, y: -14}
   - index: 3
     nextIndex: -1
     mapType: 2
-    mapPosition: {x: 0, y: 0}
+    mapPosition: {x: 18, y: -173}

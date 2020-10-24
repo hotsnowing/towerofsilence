@@ -116,13 +116,13 @@ public class IntroScene : MonoBehaviour
         }
 
         float progress = 0;
-        var rectTransform = imgProgressBar.GetComponent<RectTransform>();
-        var sizeDelta = rectTransform.sizeDelta;
+//        var rectTransform = imgProgressBar.GetComponent<RectTransform>();
+//        var sizeDelta = rectTransform.sizeDelta;
         while (progress < 1F)
         {
-            progress += 0.01F;
-            sizeDelta.x = ORIGINAL_PROGRESSBAR_SIZE * progress;
-            rectTransform.sizeDelta = sizeDelta;
+            progress += 0.04F;
+//            sizeDelta.x = ORIGINAL_PROGRESSBAR_SIZE * progress;
+//            rectTransform.sizeDelta = sizeDelta;
             yield return null;
         }
     }
