@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,8 @@ public class IntroScene : MonoBehaviour
     [SerializeField] private GameObject selectionView;
     [SerializeField] private GameObject stageView;
 
+    [SerializeField] private RectTransform rtfmFirstCharacter;
+    [SerializeField] private RectTransform rtfmSecondCharacter;
     [SerializeField] private Image imgProgressBar;
 
     private const float ORIGINAL_PROGRESSBAR_SIZE = 800F;
@@ -115,20 +118,24 @@ public class IntroScene : MonoBehaviour
             characterList[i].gameObject.SetActive(false);
         }
 
-        float progress = 0;
-//        var rectTransform = imgProgressBar.GetComponent<RectTransform>();
-//        var sizeDelta = rectTransform.sizeDelta;
-        while (progress < 1F)
-        {
-            progress += 0.04F;
-//            sizeDelta.x = ORIGINAL_PROGRESSBAR_SIZE * progress;
-//            rectTransform.sizeDelta = sizeDelta;
-            yield return null;
-        }
+        const float DELAY = 1.5F;
+
+        var anchoredPos = rtfmFirstCharacter.anchoredPosition;
+        anchoredPos.x = -389F;
+        rtfmFirstCharacter.anchoredPosition = anchoredPos;
+
+        anchoredPos = rtfmSecondCharacter.anchoredPosition;
+        anchoredPos.x = -191F;
+        rtfmSecondCharacter.anchoredPosition = anchoredPos;
+        
+        rtfmFirstCharacter.DOAnchorPosX(245F, DELAY);
+        rtfmSecondCharacter.DOAnchorPosX(418F, DELAY);
+        
+        yield return new WaitForSeconds(DELAY);
     }
 
     private void MoveToMapScene()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("Ingame");
     }
 }

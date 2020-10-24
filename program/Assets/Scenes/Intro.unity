@@ -1043,6 +1043,8 @@ MonoBehaviour:
   introView: {fileID: 1526122035}
   selectionView: {fileID: 463831639}
   stageView: {fileID: 657545753}
+  rtfmFirstCharacter: {fileID: 1093575048}
+  rtfmSecondCharacter: {fileID: 877809684}
   imgProgressBar: {fileID: 1620242527}
 --- !u!4 &454022292
 Transform:

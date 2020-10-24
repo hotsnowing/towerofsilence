@@ -1,9 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapScene : MonoBehaviour
 {
+    public static void ClearStage()
+    {
+        GameDataManager.Instance.CurrentStage++; 
+        SceneManager.LoadScene("Map");
+    }
+    
     private List<MapObject> mapObjectList = new List<MapObject>();
 
     [SerializeField] private RectTransform mapParent;
