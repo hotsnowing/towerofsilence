@@ -92,6 +92,9 @@ public class BattleSystem : MonoBehaviour
 
         }
         yield return new WaitForSeconds(2f);
+
+        ++GameDataManager.Instance.CurrentStage;
+        
         SceneManager.LoadScene("Map");
     }
 
