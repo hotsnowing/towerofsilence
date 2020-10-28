@@ -1,29 +1,14 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnumOptCharacterIndex
+public enum EnumOptCharacter
 {
-    SWOARDMAN_NORMAL=0,
+    SWOARD_MAN=0,
     
-    PRIEST_NORMAL = 100,
-}
-
-public enum EnumOptCharacterJob
-{
-    SWOARDMAN = 0,
-    PRIEST = 1,
+    
 }
 
 public class OptCharacterData : ScriptableObject
 {
-    #region Serializable
-    public EnumOptCharacterIndex optCharacterIndex;
-    public EnumOptCharacterJob optCharacterJob;
-    public int imageIndex;
-    #endregion
+    public EnumOptCharacter optCharacter;
 
-    [System.NonSerialized]
-    public List<OptSkillData> skillData = new List<OptSkillData>();
-    [System.NonSerialized]
-    public List<OptGrowing> growingList = new List<OptGrowing>();
 }

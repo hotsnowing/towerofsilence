@@ -8,7 +8,6 @@ public class GameDataManager : ScriptableObject
     public class SaveData
     {
         public List<CharacterData> characterList = new List<CharacterData>();
-        public List<OptCharacterData> optCharacterList = new List<OptCharacterData>();
     }
     
     public List<CharacterData> characterDataList = new List<CharacterData>();

@@ -11,6 +11,6 @@ public class OptSkillTreeContainer : ScriptableBase<OptSkillTreeContainer>
     }
     #endif
     
-    public EnumOptCharacterIndex characterIndex;
+    public EnumOptCharacter character;
     public List<OptSkillData> skillDataList = new List<OptSkillData>();
 }
