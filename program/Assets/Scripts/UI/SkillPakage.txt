@@ -1,0 +1,4 @@
+1. SpawnSkillNumber에 스폰을 원하는 수만큼 스킬의 속성(SkillButton의 SkillNumber)을 입력한다.
+2. 6개의 버튼이 SpawnSkillNumber의 인수들의 값을 가지고 순회한다.
+3. 버튼을 누르면 BattleSystem의 OnSkilButton이 실행되고 그함수안에 SkillPakage의 버튼정렬함수를 넣어놓았다.
+버튼들의 SkillButton에는 현재 자신의 위치인 Index와 어떤스킬인지 나타내는 SkillNumber가 있다.

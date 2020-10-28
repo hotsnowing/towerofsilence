@@ -1340,6 +1340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d370e6c43d37d4499af8ffe743e081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnSkillNumber: 010000000100000001000000010000000100000001000000
   skillButtons:
   - {fileID: 1997437325}
   - {fileID: 578811671}
@@ -1349,8 +1350,6 @@ MonoBehaviour:
   - {fileID: 457409810}
   firstButtonLocalPos: {x: -210, y: 0, z: 0}
   buttonDistance: 105
-  buttonSpawnPos: []
-  buttonIndexArray: 
   buttonMoveDelayTime: 0.13
 --- !u!1 &963194225
 GameObject:
