@@ -14,7 +14,6 @@ public class Character : MonoBehaviour
     public int maxCost;
 
 
-
     //public void useSkill(Character target, int skillnumber)
     //{
             //스킬 사용 시 필요

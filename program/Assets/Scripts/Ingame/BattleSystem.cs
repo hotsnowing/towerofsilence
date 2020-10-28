@@ -18,14 +18,16 @@ public class BattleSystem : MonoBehaviour
 
     public HPBar playerHPBar;
     public HPBar enemyHPBar;
-
     public BattleState state;
+
+
+    public SkillPakage skillPakage;
+
     // Start is called before the first frame update
     void Start()
     {
         state = BattleState.START;
         StartCoroutine(SetupBattle());
-
     }
 
     IEnumerator SetupBattle()
@@ -110,11 +112,13 @@ public class BattleSystem : MonoBehaviour
       
     //}
 
-    public void OnSkillButton(int skillnumber)
+    public void OnSkillButton(SkillButton skillbutton)
     {
         if(state != BattleState.PLAYERTURN)
             return;
-        StartCoroutine(PlayerSkill(skillnumber));
+        StartCoroutine(PlayerSkill(skillbutton.skillNumber));
+        //#.스킬패키지 정렬
+        skillPakage.SortButtons(skillbutton);
     }
 
 }
