@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OptSkillTreeContainer : ScriptableBase<OptSkillTreeContainer>
+public class OptSkillTreeTable : ScriptableBase<OptSkillTreeTable>
 {
     #if UNITY_EDITOR
     [UnityEditor.MenuItem("Scriptable/OptSkillTreeContainer")]
@@ -11,6 +11,6 @@ public class OptSkillTreeContainer : ScriptableBase<OptSkillTreeContainer>
     }
     #endif
     
-    public EnumOptCharacterIndex characterIndex;
-    public List<OptSkillData> skillDataList = new List<OptSkillData>();
+    public int characterIndex;
+    public List<OptSkillTable> skillDataList = new List<OptSkillTable>();
 }

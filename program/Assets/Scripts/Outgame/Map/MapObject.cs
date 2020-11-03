@@ -27,13 +27,13 @@ public class MapObject : MonoBehaviour
         return Instantiate(loadedResource, parent);
     }
 
-    public void SetData(MapData data)
+    public void SetData(OptMapTable table)
     {
-        txtStage.text = (data.index+1).ToString();
-        Index = data.index;
-        monster.SetActive(data.mapType == EnumMapType.MONSTER);
-        npc.SetActive(data.mapType == EnumMapType.NPC);
-        rest.SetActive(data.mapType == EnumMapType.REST);
+        txtStage.text = (table.index+1).ToString();
+        Index = table.index;
+        monster.SetActive(table.mapType == EnumMapType.MONSTER);
+        npc.SetActive(table.mapType == EnumMapType.NPC);
+        rest.SetActive(table.mapType == EnumMapType.REST);
 
         bool interactable = GameDataManager.Instance.CurrentStage == Index + 1;
         mark.SetActive(interactable);

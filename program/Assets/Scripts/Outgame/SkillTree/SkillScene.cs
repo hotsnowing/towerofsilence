@@ -4,7 +4,7 @@ using UnityEngine;
 public class SkillScene : MonoBehaviour
 {
     private Dictionary<int, SkillObject> loadedSkillmap = new Dictionary<int, SkillObject>();
-    private OptSkillTreeContainer skillTreeContainer;
+    private OptSkillTreeTable _skillTreeTable;
 
     private void Start()
     {

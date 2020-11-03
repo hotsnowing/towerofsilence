@@ -19,7 +19,7 @@ public class MapManager : ScriptableObject
             return instance;
         }
     }
-    public List<MapData> mapDataList = new List<MapData>();
+    public List<OptMapTable> mapDataList = new List<OptMapTable>();
     
 #if UNITY_EDITOR
     [MenuItem("Scriptable/MapData/Create")]
@@ -39,18 +39,3 @@ public class MapManager : ScriptableObject
     
 }
 
-[System.Serializable]
-public class MapData
-{
-    public int index;
-    public EnumMapType mapType;
-}
-
-public enum EnumMapType
-{
-    MONSTER=0,
-    NPC=1,
-    REST = 2,
-    
-    BOSS=3,
-}
