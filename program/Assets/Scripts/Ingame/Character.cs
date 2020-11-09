@@ -6,12 +6,12 @@ public enum Skills { EMPTY, BASICATTACK }
 
 public class Character : MonoBehaviour
 {
+    [Header("BasicStatus")]
     public int maxHp;
     public int currentHp;
-
     public int atkPower;
-
     public int maxCost;
+    public float height;
 
 
     //public void useSkill(Character target, int skillnumber)

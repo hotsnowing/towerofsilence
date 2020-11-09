@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 374601003086597358}
   - component: {fileID: 8213256414490931150}
   m_Layer: 0
-  m_Name: PlayerCharacters
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   currentHp: 100
   atkPower: 10
   maxCost: 10
+  height: 42.5
 --- !u!1 &7944205185049055495
 GameObject:
   m_ObjectHideFlags: 0

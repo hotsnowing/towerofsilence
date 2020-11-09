@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 8485000785028420369}
   - component: {fileID: 74669844637872177}
   m_Layer: 0
-  m_Name: EnemyCharacters
+  m_Name: Enemy0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,3 +129,4 @@ MonoBehaviour:
   currentHp: 50
   atkPower: 5
   maxCost: 5
+  height: 43
