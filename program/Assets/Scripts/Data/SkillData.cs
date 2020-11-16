@@ -3,10 +3,24 @@ public class SkillData
 {
     #region Serializable
     public int index;
+    public EnumSkillUser skillUser;
     public EnumSkillType skillType;
+    public int Level
+    {
+        get { return Level; }
+        set { Level = value; }
+    }
     #endregion
-    
-    public int Level { get; set; }
+}
+public enum EnumSkillUser 
+{ 
+    Player,
+    Company0,
+    Company1,
+    Company2,
+    Company3,
+    Enemy0,
+    Enemy1,
 }
 
 public enum EnumSkillType

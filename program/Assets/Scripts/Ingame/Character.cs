@@ -2,23 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Skills { EMPTY, BASICATTACK }
-
+public enum CharacterType 
+{
+    Player, Company0, Company1, Company2, Company3, Enemy0, Enemy1,
+}
 public class Character : MonoBehaviour
 {
-    [Header("BasicStatus")]
+    [Header("BasicData")]
+    public CharacterType characterType;
     public int maxHp;
     public int currentHp;
     public int atkPower;
     public int maxCost;
     public float height;
-
-
-    //public void useSkill(Character target, int skillnumber)
-    //{
-            //스킬 사용 시 필요
-    //}
-
+    
     public bool TakeDamage(int dmg)
     {
         currentHp -= dmg;
@@ -33,5 +30,4 @@ public class Character : MonoBehaviour
     {
         return currentHp;
     }
-    
 }

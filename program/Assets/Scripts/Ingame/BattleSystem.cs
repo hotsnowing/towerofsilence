@@ -5,12 +5,38 @@ using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
 
+/*
+ 프르팹 버튼에 함수 부여하기  
+ 클릭으로 현재지정대상 정하기
+ */
+
 public enum BattleState {START, PLAYERTURN, ENEMYTURN, WON, LOST }
+//JsonFile**********************************
 [System.Serializable]
 public class SpawnData
 {
-    public List<string> playerTList;
-    public List<string> enemyTList;
+    public List<CharacterSaveData> playerTSD;
+    public List<CharacterSaveData> enemyTSD;
+}
+[System.Serializable]
+public class CharacterSaveData 
+{
+    public CharacterType cType;
+    //#.otherStatus
+
+    //#.SkillData
+    public SkillData[] cSkillData;
+}
+//******************************************
+public class CompanyBox
+{
+    public GameObject character;
+    public GameObject skillPackage;
+    public CompanyBox(GameObject character, GameObject skillPk)
+    {
+        this.character = character;
+        skillPackage = skillPk;
+    }
 }
 public class BattleSystem : MonoBehaviour
 {
@@ -25,7 +51,7 @@ public class BattleSystem : MonoBehaviour
     private float pFixedMoveDistance;
     private float eFixedMoveDistance;
 
-    private List<GameObject> playerTList;
+    private List<CompanyBox> playerTList;
     private List<GameObject> enemyTList;
 
     [Header("MoveData")]
@@ -37,11 +63,14 @@ public class BattleSystem : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject company0Prefab;
     public GameObject company1Prefab;
+    public GameObject company2Prefab;
+    public GameObject company3Prefab;
     //#.EnemyT
     public GameObject enemy0Prefab;
     public GameObject enemy1Prefab;
-
+    [Header("UI")]
     public GameObject hpBarPrefab;
+    public GameObject skillPakagePrefab;
     //#.
     Character playerLogic;
     Character company0Logic;
@@ -49,18 +78,25 @@ public class BattleSystem : MonoBehaviour
     Character enemy0Logic;
     Character enemy1Logic;
 
-
     [Header("State")]
     public Text turnState;
     public BattleState state;
 
     [Header("Canvas")]
     public GameObject canvas;
-    [SerializeField]private SkillPakage skillPakage;
+
+    [Header("SkillManager")]
+    public SkillManager skillManager;
+    public CharacterType nowChoosenCharacter;
+    /*
+     구현해야할 것
+     클릭을 통한 공격할 유닛 선택 
+     - 선택 -> 스킬패키지 순서 변경 
+     */
 
     private void Awake()
     {
-        playerTList = new List<GameObject>();
+        playerTList = new List<CompanyBox>();
         enemyTList = new List<GameObject>();
 
         pFixedMoveDistance = Mathf.Abs(playerFrontSpawnPos.x - playerTHidePos.x);
@@ -80,7 +116,7 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(2f);
         PlayerTurn();
     }
-    IEnumerator PlayerSkill(int skillnumber)
+    IEnumerator PlayerSkill()
     {
         //Character target = ChooseTarget();
         //playerCharacter.useSkill(target, skillnumber);
@@ -154,25 +190,59 @@ public class BattleSystem : MonoBehaviour
     public void OnSkillButton(SkillButton skillbutton)
     {
         if(state != BattleState.PLAYERTURN) return;
-        StartCoroutine(PlayerSkill(skillbutton.skillNumber));
-        skillPakage.SortButtons(skillbutton); //SortSkillPakage 
+        StartCoroutine(PlayerSkill());
+        //skillPackage.SortButtons(skillbutton); //SortSkillPakage 
     }
     //#.SpawnSystem
     IEnumerator SpawnPlayerT()
     { 
         Vector3 nowSpawnPos = playerFrontSpawnPos;
-        List<string> pT = spawnData.playerTList;
+        List<CharacterSaveData> pT = spawnData.playerTSD;
+        //#.canvas - SkillPackage를 찾음
         //#.Spawn
-        for(int i=0; i<pT.Count; i++)
+        for (int i=0; i<pT.Count; i++)
         {
-            GameObject gameObject = MakeObj(pT[i]);
-            gameObject.transform.position = playerTHidePos;
-            playerTList.Add(gameObject);
+            //#.스킬패키지 스폰 & canvas - SkillPackage 에 자식으로 설정해준다.
+            GameObject skillPackage = Instantiate(skillPakagePrefab);
+            skillPackage.transform.SetParent(canvas.transform.GetChild(3).transform);
+            skillPackage.GetComponent<RectTransform>().localPosition = new Vector3(-200, -20, 0); //스폰좌표
+            skillPackage.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //사이즈
+            SkillPackage skPk = skillPackage.GetComponent<SkillPackage>();
+
+            //#.SpawnData로 부터 해당 인덱스의 스킬데이터를 받아옴 -> 스킬패키지 내용 구성
+            SkillData[] skSt = spawnData.playerTSD[i].cSkillData;
+            //#.박스에 오브젝트와 스킬페키지를 넣는다.
+            CompanyBox companyBox = new CompanyBox(MakeObj(pT[i].cType), skillPackage);
+
+            //#.스킬버튼에 랜덤으로 스킬부여
+            List<int> list = MixOrder(skSt.Length);
+            List<SkillData> transSkillData = new List<SkillData>();
+            for(int j=0; j<list.Count; j++)
+            {
+                //#.랜덤값에 따라 스킬데이터 저장
+                transSkillData.Add(skSt[j]);
+            }
+            //#.스킬데이터 전달.
+            skPk.spawnSkillData = transSkillData;
+            //#.스킬패키지 작동
+            skPk.StartSkillPackage();
+
+            //#.안보이는 위치로 이동
+            companyBox.character.transform.position = playerTHidePos;
+
+            //#.플레이어 리스트에 추가
+            playerTList.Add(companyBox);
         }
         //#.Sort
-        foreach(GameObject pTobj in playerTList)
+        foreach (CompanyBox pTobj in playerTList)
         {
-            StartCoroutine(MoveObject(pTobj, nowSpawnPos, pFixedMoveDistance));
+            //#.보이는 순서 지정 첫번째는 플레이어로 하고 다음부턴 선택으로
+            if (pTobj.character.GetComponent<Character>().characterType == CharacterType.Player)
+            {
+                //#.플레이어에게 첫번째 위치부여
+                pTobj.skillPackage.transform.SetAsLastSibling();
+            }
+            StartCoroutine(MoveObject(pTobj.character, nowSpawnPos, pFixedMoveDistance));
             nowSpawnPos += playerTSpawnDistance; 
             yield return new WaitForSeconds(spawnDelayTime); //SpawnDelay
         }
@@ -180,11 +250,11 @@ public class BattleSystem : MonoBehaviour
     IEnumerator SpawnEnemyT()
     {
         Vector3 nowSpawnPos = enemyFrontSpawnPos;
-        List<string> pT = spawnData.enemyTList;
+        List<CharacterSaveData> pT = spawnData.enemyTSD;
         //#.Spawn
         for(int i=0; i<pT.Count; i++)
         {
-            GameObject gameObject = MakeObj(pT[i]);
+            GameObject gameObject = MakeObj(pT[i].cType);
             gameObject.transform.position = enemyTHidePos;
             enemyTList.Add(gameObject);
         }
@@ -196,7 +266,6 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(spawnDelayTime); //SpawnDelay
         }
     }
-
     IEnumerator MoveObject(GameObject moveObj, Vector3 targetPos, float fixedD)
     {
         float t = 0;
@@ -209,25 +278,31 @@ public class BattleSystem : MonoBehaviour
             yield return null;
         }
     }
-    private GameObject MakeObj(string objName)
+    private GameObject MakeObj(CharacterType characterType)
     {
         GameObject go = null;
-        switch (objName)
+        switch (characterType)
         {
-            case "Player":
+            case CharacterType.Player:
                 go = Instantiate(playerPrefab);
                 break;
-            case "Company0":
-                go =Instantiate(company0Prefab);
+            case CharacterType.Company0:
+                go = Instantiate(company0Prefab);
                 break;
-            case "Company1":
-                go =Instantiate(company1Prefab);
+            case CharacterType.Company1:
+                go = Instantiate(company1Prefab);
                 break;
-            case "Enemy0":
-                go =Instantiate(enemy0Prefab);
+            case CharacterType.Company2:
+                go = Instantiate(company2Prefab);
                 break;
-            case "Enemy1":
-                go =Instantiate(enemy1Prefab);
+            case CharacterType.Company3:
+                go = Instantiate(company3Prefab);
+                break;
+            case CharacterType.Enemy0:
+                go = Instantiate(enemy0Prefab);
+                break;
+            case CharacterType.Enemy1:
+                go = Instantiate(enemy1Prefab);
                 break;
         }
         if(go)
@@ -265,6 +340,28 @@ public class BattleSystem : MonoBehaviour
     float DecreaseFunc(float x)
     {
         return -Mathf.Pow(x - 1, 2) + 1;
+    }
+
+    //#.Mix
+    private List<int> MixOrder(int n)
+    {
+        int[] num = new int[n];
+        List<int> list = new List<int>();
+        for(int i=0; i<num.Length; i++)
+        {
+            num[i] = 0;
+        }
+        while (true)
+        {
+            int rand = Random.Range(0, num.Length);
+            if(num[rand] == 0)
+            {
+                num[rand] = 1;
+                list.Add(rand);
+            }
+            if (list.Count == num.Length) break;
+        }
+        return list;
     }
 }
 

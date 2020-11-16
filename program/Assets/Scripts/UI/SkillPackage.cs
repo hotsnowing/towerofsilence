@@ -4,16 +4,16 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillPakage : MonoBehaviour
+public class SkillPackage : MonoBehaviour
 {
     [Header("SpawnSkillList")]
-    public List<int> spawnSkillNumber; //생성할 스킬버튼의 종류및 수 리스트
+    public List<SkillData> spawnSkillData; //생성할 스킬버튼의 종류및 수 리스트
     private int skillNumberListIndex;
 
     [Header("SkillButtons")]
     [SerializeField] private GameObject[] skillButtons; //표시 버튼 + 1
     private RectTransform[] skillButtonsRT;
-    private SkillButton[] skillButtonLogic;
+    [System.NonSerialized]public SkillButton[] skillButtonLogic;
     private int numOfSkillButton;
     private int numOfActiveSkillButton;
     [SerializeField] private Vector3 firstButtonLocalPos;
@@ -23,18 +23,21 @@ public class SkillPakage : MonoBehaviour
     private bool isFirst = true;
 
     [Header("ButtonMove")]
-    private IEnumerator[] moveButtonCoroutine;
     [SerializeField] private float buttonMoveDelayTime;
     private float moveDelayT; //버튼 이동시간 계수
 
     private void Awake()
     {
+        spawnSkillData = new List<SkillData>();
+
+        numOfSkillButton = skillButtons.Length;
+    }
+    public void StartSkillPackage()
+    {
         skillNumberListIndex = 0; //리스트를 앞에서부터 접근
 
         //버튼 이동시간 계수
         moveDelayT = 1 / buttonMoveDelayTime;
-
-        numOfSkillButton = skillButtons.Length;
 
         skillButtonsRT = new RectTransform[numOfSkillButton];
         skillButtonLogic = new SkillButton[numOfSkillButton];
@@ -42,7 +45,7 @@ public class SkillPakage : MonoBehaviour
         buttonIndexArray = new List<int>();
 
         buttonSpawnPos = new Vector3[numOfSkillButton];
-        for (int i=0;i<skillButtons.Length; i++)
+        for (int i=0; i< numOfSkillButton; i++)
         {
             //#.버튼을 일단 꺼둔다
             skillButtons[i].SetActive(false);
@@ -55,19 +58,16 @@ public class SkillPakage : MonoBehaviour
             //#.SkillButtonScript
             skillButtonLogic[i] = skillButtons[i].GetComponent<SkillButton>();
 
-            if(i < spawnSkillNumber.Count)
+            if(i < spawnSkillData.Count)
             {
                 //#.버튼넘버(속성) 부여
-                skillButtonLogic[i].skillNumber = GiveSkillNumber();
+                skillButtonLogic[i].skillData = GiveSkillData();
+                skillButtonLogic[i].SetText();
             }
 
             //#.버튼 스폰 포인트 지정
             buttonSpawnPos[i] = firstButtonLocalPos + new Vector3(buttonDistance, 0, 0) * i;
         }
-
-        //#.코루틴 저장
-        moveButtonCoroutine = new IEnumerator[numOfSkillButton];
-
         //#.Start
         SortButtons();
     }
@@ -79,7 +79,7 @@ public class SkillPakage : MonoBehaviour
     private IEnumerator SortSkillButtonsCoroutine(SkillButton skillButton = null)  //클릭한 버튼
     {
         int curIndex = 0;  // 움직일 인덱스
-
+        IEnumerator[] moveCoroutine = new IEnumerator[numOfSkillButton];
         if (!isFirst)
         {
             int removeIndex = skillButton.index;
@@ -96,7 +96,7 @@ public class SkillPakage : MonoBehaviour
             skillButtonsRT[buttonIndexArray[numOfSkillButton - 1]].anchoredPosition = buttonSpawnPos[numOfSkillButton - 1];
             skillButtons[buttonIndexArray[numOfSkillButton - 1]].SetActive(false);
 
-            if (skillNumberListIndex == spawnSkillNumber.Count) //모든 버튼이 생성됨
+            if (skillNumberListIndex == spawnSkillData.Count) //모든 버튼이 생성됨
             {
                 numOfActiveSkillButton--; //누른 버튼을 버림
             }
@@ -106,12 +106,12 @@ public class SkillPakage : MonoBehaviour
                 skillButton.index = numOfSkillButton - 1;
 
                 //#.버튼넘버(속성) 부여
-                skillButton.skillNumber = GiveSkillNumber();
+                skillButton.skillData = GiveSkillData();
             }
         }
         else //첫 스폰일 떄
         {
-            numOfActiveSkillButton = spawnSkillNumber.Count >= numOfSkillButton ? numOfSkillButton : spawnSkillNumber.Count;
+            numOfActiveSkillButton = spawnSkillData.Count >= numOfSkillButton ? numOfSkillButton : spawnSkillData.Count;
         }
         //#.누르지않은 버튼 부드러운 이동
         while (curIndex < numOfActiveSkillButton)
@@ -127,12 +127,12 @@ public class SkillPakage : MonoBehaviour
             {
                 if (curIndex == skillButtons.Length - 1)
                 {
-                    //#.첫배치시 마지막 버튼 비활성화
+                    //#.영역이탈 시 마지막 버튼 비활성화
                     skillButtons[buttonIndexArray[curIndex]].SetActive(false);
                     break;
                 }
             }
-            yield return StartCoroutine(moveButtonCoroutine[curIndex] = MoveButton(curIndex));
+            yield return StartCoroutine(moveCoroutine[curIndex] = MoveButton(curIndex));
             curIndex++;
         }
 
@@ -163,8 +163,8 @@ public class SkillPakage : MonoBehaviour
     }
 
     //#.미완
-    private int GiveSkillNumber()
+    private SkillData GiveSkillData()
     {
-        return spawnSkillNumber[skillNumberListIndex++];
+        return spawnSkillData[skillNumberListIndex++];
     }
 }

@@ -98,17 +98,19 @@ public class GameDataManager : ScriptableObject
     {
         characterData = GetCharacter(index);
         skillDataList = new List<SkillData>();
-
+        /*
         var skillIndexList = characterData.skillIndexList;
         for (int i = 0; i<skillIndexList.Count; ++i)
         {
             skillDataList.Add(GetSkill(skillIndexList[i]));
         }
+        */
     }
     
     public CharacterData GetCharacter(int index)
     {
-        return characterDataList.Find(item => item.index == index);
+        return null;
+        // return characterDataList.Find(item => item.index == index);
     }
 
     public SkillData GetSkill(int index)

@@ -13,6 +13,7 @@ public class CharacterSelectionView:MonoBehaviour
 
     public void Set(int itemIndex,CharacterData characterData ,List<SkillData> skillList)
     {
+        /*
         for (int i = 0; i < characterArray.Length; ++i)
         {
             characterArray[i].SetActive(i == characterData.imageIndex);
@@ -27,5 +28,6 @@ public class CharacterSelectionView:MonoBehaviour
         {
             skillViewList[i].Set(skillList[i].skillType);
         }
+        */
     }
 }

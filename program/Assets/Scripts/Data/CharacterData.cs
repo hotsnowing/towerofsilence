@@ -1,25 +1,18 @@
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-[System.Serializable]
-public class CharacterData
+public class CharacterData : MonoBehaviour
 {
-    #region Sesrializable
-    
-    public int index;
-    public int imageIndex;
-    public EnumCharacterJob job;
-    public List<int> skillIndexList = new List<int>();
-    
-    #endregion
-    
-    [System.NonSerialized]
-    public List<SkillData> skillDataList = new List<SkillData>();
-}
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
 
-public enum EnumCharacterJob
-{
-    Warrior,
-    Theif,
-    Priest,
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }
-
