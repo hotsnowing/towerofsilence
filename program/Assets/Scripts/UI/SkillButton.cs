@@ -12,6 +12,6 @@ public class SkillButton : MonoBehaviour
     //#.Test
     public void SetText()   
     {
-        text.text = (skillData.skillUser).ToString();
+        text.text = (skillData.skillUser).ToString() + "\n" + (skillData.skillType).ToString() + "\n" + (skillData.Level).ToString();
     }
 }

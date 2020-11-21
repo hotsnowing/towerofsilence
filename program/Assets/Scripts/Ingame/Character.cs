@@ -4,29 +4,25 @@ using UnityEngine;
 
 public enum CharacterType 
 {
-    Player, Company0, Company1, Company2, Company3, Enemy0, Enemy1,
+    Player, Company0, Company1, Company2, Company3, Enemy0, Enemy1
 }
 public class Character : MonoBehaviour
 {
     [Header("BasicData")]
     public CharacterType characterType;
     public int maxHp;
-    public int currentHp;
-    public int atkPower;
+    public float currentHp;
+    public float atkPower;
     public int maxCost;
     public float height;
     
-    public bool TakeDamage(int dmg)
+    public void TakeDamage(float dmg)
     {
         currentHp -= dmg;
-        //죽으면 true를 반환
-        if (currentHp <= 0)
-            return true;
-        else
-            return false;
+        //#.죽을 경우*
     }
 
-    public int getHP()
+    public float getHP()
     {
         return currentHp;
     }

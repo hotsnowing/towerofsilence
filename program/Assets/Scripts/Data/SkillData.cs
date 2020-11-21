@@ -5,11 +5,7 @@ public class SkillData
     public int index;
     public EnumSkillUser skillUser;
     public EnumSkillType skillType;
-    public int Level
-    {
-        get { return Level; }
-        set { Level = value; }
-    }
+    public int Level;
     #endregion
 }
 public enum EnumSkillUser 

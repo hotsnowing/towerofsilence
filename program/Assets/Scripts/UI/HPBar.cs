@@ -26,14 +26,10 @@ public class HPBar : MonoBehaviour
         //#.사이즈 오류
         rectTransform.localScale = new Vector3(1, 1, 1);
     }
-
-    public void SetHP(int hp)
-    {
-        hpSlider.value = hp;
-    }
     private void Update()
     {
         //#.항상 타겟과 함께 움직이게
-         rectTransform.position = targetObj.transform.position + sliderDistance;
+        rectTransform.position = targetObj.transform.position + sliderDistance;
+        hpSlider.value = targetObj.GetComponent<Character>().currentHp;
     }
 }

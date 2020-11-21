@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Company0
+  - Company1
+  - Company2
+  - Company3
+  - Enemy0
+  - Enemy1
   layers:
   - Default
   - TransparentFX
@@ -13,10 +19,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerT
+  - EnemyT
+  - PlayerTCollider
+  - EnemyTCollider
   - 
   - 
   - 

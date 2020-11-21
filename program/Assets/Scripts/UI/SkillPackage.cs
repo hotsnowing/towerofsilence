@@ -26,11 +26,28 @@ public class SkillPackage : MonoBehaviour
     [SerializeField] private float buttonMoveDelayTime;
     private float moveDelayT; //버튼 이동시간 계수
 
+    [Header("BattleSystem")]
+    public BattleSystem battleSystem;
+
     private void Awake()
     {
         spawnSkillData = new List<SkillData>();
 
         numOfSkillButton = skillButtons.Length;
+    }
+    private void Update()
+    {
+        //#.버튼 활성화 비활성화
+        if(battleSystem.playerTurnState == PlayerTurnState.SelectSkillButton || battleSystem.playerTurnState == PlayerTurnState.CheckSkillOption)
+        {
+            foreach(GameObject sB in skillButtons)
+                sB.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            foreach (GameObject sB in skillButtons)
+                sB.GetComponent<Button>().interactable = false;
+        }
     }
     public void StartSkillPackage()
     {
@@ -72,8 +89,17 @@ public class SkillPackage : MonoBehaviour
         SortButtons();
     }
 
+    //#.PushButton
+    public void PushButton(SkillButton skillButton)
+    {
+        battleSystem.ActivateSkill(this, skillButton);
+    }
+
+
+    //#.스킬버튼 정렬 case1) 처음 정렬 case2)선택시 버튼사라진후 정렬
     public void SortButtons(SkillButton skillButton = null)
     {
+        //#.정렬
         StartCoroutine(SortSkillButtonsCoroutine(skillButton));
     }
     private IEnumerator SortSkillButtonsCoroutine(SkillButton skillButton = null)  //클릭한 버튼
