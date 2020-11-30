@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum CharacterType 
 {
-    Player, Company0, Company1, Company2, Company3, Enemy0, Enemy1
+    None, Player, Company0, Company1, Company2, Company3, Enemy0, Enemy1
 }
 public class Character : MonoBehaviour
 {
@@ -14,8 +14,19 @@ public class Character : MonoBehaviour
     public float currentHp;
     public float atkPower;
     public int maxCost;
+    public int curCost;
     public float height;
-    
+
+    [Header("CharacterState")]
+    public bool isStun;
+    public bool isBarrier;
+    public bool isReflect;
+
+    private void Awake()
+    {
+        currentHp = maxHp;
+        curCost = maxCost;
+    }
     public void TakeDamage(float dmg)
     {
         currentHp -= dmg;

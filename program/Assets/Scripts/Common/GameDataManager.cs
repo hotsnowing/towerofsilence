@@ -112,9 +112,10 @@ public class GameDataManager : ScriptableObject
         return null;
         // return characterDataList.Find(item => item.index == index);
     }
-
+    /*
     public SkillData GetSkill(int index)
     {
         return skillDataList.Find(item => item.index == index);
     }
+    */
 }

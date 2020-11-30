@@ -306,7 +306,8 @@ MonoBehaviour:
     index: 0
     skillUser: 0
     skillType: 0
-    Level: 0
+    level: 0
+    cost: 0
 --- !u!95 &8385133990005515785
 Animator:
   serializedVersion: 3
@@ -476,7 +477,8 @@ MonoBehaviour:
     index: 0
     skillUser: 0
     skillType: 0
-    Level: 0
+    level: 0
+    cost: 0
 --- !u!95 &8556016812064408097
 Animator:
   serializedVersion: 3
@@ -802,7 +804,8 @@ MonoBehaviour:
     index: 0
     skillUser: 0
     skillType: 0
-    Level: 0
+    level: 0
+    cost: 0
 --- !u!95 &1074967026219400927
 Animator:
   serializedVersion: 3
@@ -972,7 +975,8 @@ MonoBehaviour:
     index: 0
     skillUser: 0
     skillType: 0
-    Level: 0
+    level: 0
+    cost: 0
 --- !u!95 &3404212310011020946
 Animator:
   serializedVersion: 3
@@ -1142,7 +1146,8 @@ MonoBehaviour:
     index: 0
     skillUser: 0
     skillType: 0
-    Level: 0
+    level: 0
+    cost: 0
 --- !u!95 &5918547131918562303
 Animator:
   serializedVersion: 3
@@ -1573,7 +1578,8 @@ MonoBehaviour:
     index: 0
     skillUser: 0
     skillType: 0
-    Level: 0
+    level: 0
+    cost: 0
 --- !u!95 &6282022070549837627
 Animator:
   serializedVersion: 3

@@ -29,6 +29,9 @@ public class SkillPackage : MonoBehaviour
     [Header("BattleSystem")]
     public BattleSystem battleSystem;
 
+    [Header("CheckCost")]
+    public int minCost = 100;
+
     private void Awake()
     {
         spawnSkillData = new List<SkillData>();
@@ -40,8 +43,24 @@ public class SkillPackage : MonoBehaviour
         //#.버튼 활성화 비활성화
         if(battleSystem.playerTurnState == PlayerTurnState.SelectSkillButton || battleSystem.playerTurnState == PlayerTurnState.CheckSkillOption)
         {
-            foreach(GameObject sB in skillButtons)
-                sB.GetComponent<Button>().interactable = true;
+            //#.선택가능한것만 Enabled로 바꾼다.
+            foreach(GameObject tempSkillButton in skillButtons)
+            {
+                SkillData skillData = tempSkillButton.GetComponent<SkillButton>().skillData;
+                int tempCost = SkillManager.instance.GetBasicSkillData(skillData).skill_Cost[skillData.skill_Level];
+                if (battleSystem.playerTCompositeCost >= tempCost && tempSkillButton.activeSelf)
+                {
+                    tempSkillButton.GetComponent<Button>().interactable = true;
+                    //#.사용가능 스킬중 가장 코스트가 낮은 것을 찾는다.
+                    if (minCost >= tempCost)
+                        minCost = tempCost;
+                }
+                else
+                {
+                    //.
+                }
+
+            }     
         }
         else
         {
@@ -88,14 +107,11 @@ public class SkillPackage : MonoBehaviour
         //#.Start
         SortButtons();
     }
-
     //#.PushButton
     public void PushButton(SkillButton skillButton)
     {
         battleSystem.ActivateSkill(this, skillButton);
     }
-
-
     //#.스킬버튼 정렬 case1) 처음 정렬 case2)선택시 버튼사라진후 정렬
     public void SortButtons(SkillButton skillButton = null)
     {
@@ -120,8 +136,8 @@ public class SkillPackage : MonoBehaviour
             //#.누른버튼 설정
             //#.가장뒤로 이동
             skillButtonsRT[buttonIndexArray[numOfSkillButton - 1]].anchoredPosition = buttonSpawnPos[numOfSkillButton - 1];
+            skillButtons[buttonIndexArray[numOfSkillButton - 1]].GetComponent<Button>().interactable = false;
             skillButtons[buttonIndexArray[numOfSkillButton - 1]].SetActive(false);
-
             if (skillNumberListIndex == spawnSkillData.Count) //모든 버튼이 생성됨
             {
                 numOfActiveSkillButton--; //누른 버튼을 버림

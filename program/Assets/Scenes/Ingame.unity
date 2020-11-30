@@ -290,66 +290,81 @@ MonoBehaviour:
   enemyTSpawnDistance: {x: 2, y: 0, z: 0}
   enemyTHidePos: {x: 10, y: 0, z: 0}
   spawnDelayTime: 0.25
+  playerTCompositeCost: 0
+  enemyTCompositeCost: 0
   objMoveTime: 1
   spawnData:
     playerTSD:
-    - cType: 0
-      cSkillData:
-      - index: 0
-        skillUser: 0
-        skillType: 0
-        Level: 1
-      - index: 1
-        skillUser: 0
-        skillType: 0
-        Level: 2
-      - index: 2
-        skillUser: 0
-        skillType: 2
-        Level: 1
     - cType: 1
       cSkillData:
-      - index: 0
-        skillUser: 1
-        skillType: 0
-        Level: 0
-      - index: 1
-        skillUser: 1
-        skillType: 1
-        Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 1
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 1
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 1
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 1
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
     - cType: 2
       cSkillData:
-      - index: 0
-        skillUser: 2
-        skillType: 0
-        Level: 0
-      - index: 1
-        skillUser: 2
-        skillType: 1
-        Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
     - cType: 3
       cSkillData:
-      - index: 0
-        skillUser: 3
-        skillType: 0
-        Level: 0
-      - index: 1
-        skillUser: 3
-        skillType: 1
-        Level: 0
-    enemyTSD:
-    - cType: 5
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+    - cType: 4
       cSkillData:
-      - index: 0
-        skillUser: 5
-        skillType: 0
-        Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+    enemyTSD:
     - cType: 6
       cSkillData:
-      - index: 0
-        skillUser: 6
-        skillType: 0
-        Level: 0
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
+    - cType: 7
+      cSkillData:
+      - skill_Id: 0
+        skill_Type: 0
+        skill_Level: 0
   playerPrefab: {fileID: 1448356056797234742, guid: 71bd74d4b8c3e2c4cbf0f50ffdabb4af,
     type: 3}
   company0Prefab: {fileID: 3432158601642917297, guid: 3a75ea88ec4749d4185aa5aa0ee0db55,
@@ -364,7 +379,7 @@ MonoBehaviour:
     type: 3}
   enemy1Prefab: {fileID: 7272054227446503881, guid: 6d22e7a38d0d8d2458c5000737d0d331,
     type: 3}
-  hpBarPrefab: {fileID: 1753744835899582128, guid: 77e3431e590932947b1e7464b888568d,
+  hpBarPrefab: {fileID: 1368212978066652, guid: 8717b33e4f8b6e244a326538e17a1179,
     type: 3}
   skillPakagePrefab: {fileID: 8249749166529018062, guid: 22128355cf3d15745ae707601a1cfade,
     type: 3}
@@ -374,7 +389,6 @@ MonoBehaviour:
   mainCanvas: {fileID: 1404409316}
   mainToolBarCanvas: {fileID: 1832106793}
   hpBarCanvas: {fileID: 1213149611}
-  skillManager: {fileID: 428974967}
   isCharacterChanged: 0
   isSkillChanged: 0
   nowChoosen: 0
@@ -717,6 +731,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7e954095ddd5641a11eb0492adc457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill_Icons:
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!1 &641331750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641331751}
+  - component: {fileID: 641331753}
+  - component: {fileID: 641331752}
+  - component: {fileID: 641331754}
+  m_Layer: 5
+  m_Name: PlayerCost
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &641331751
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641331750}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1808083165}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -325, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &641331752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.04867482, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 100
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 100
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &641331753
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641331750}
+  m_CullTransparentMesh: 0
+--- !u!114 &641331754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641331750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa5ec54b1061c3498cd6fe48c9f6fe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleSystem: {fileID: 74925676}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,7 +1082,8 @@ MonoBehaviour:
   MousePointer: {fileID: 1619696549}
   testMarkP: {fileID: 193384602}
   testMarkE: {fileID: 179532435}
-  isChoosing: 0
+  canChoosePlayerT: 0
+  canChooseEnemyT: 0
   playerT0: {fileID: 0}
   enemyT0: {fileID: 0}
 --- !u!1 &1213149611
@@ -1265,7 +1374,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 641331751}
   m_Father: {fileID: 1404409320}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1335,7 +1445,7 @@ MonoBehaviour:
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0

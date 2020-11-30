@@ -7,7 +7,8 @@ public class ChooseCharacter : MonoBehaviour
     public GameObject MousePointer;
     public GameObject testMarkP;
     public GameObject testMarkE;
-    public bool isChoosing;
+    public bool canChoosePlayerT;
+    public bool canChooseEnemyT;
 
     [Header("Choosen")]
     public GameObject playerT0;
@@ -24,51 +25,62 @@ public class ChooseCharacter : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else
-        {
             Destroy(gameObject);
-        }
     }
     #endregion singleton
-
-
     private void Update()
     {
         //마우스 포인터
         Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         MousePointer.transform.position = new Vector3(p.x, p.y, -5);
-
-        if (isChoosing)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            RaycastHit2D hitP = Physics2D.Raycast(p, Vector3.back, 100, LayerMask.GetMask("PlayerTCollider"));
+            RaycastHit2D hitE = Physics2D.Raycast(p, Vector3.back, 100, LayerMask.GetMask("EnemyTCollider"));
+            if (canChoosePlayerT)
             {
-                RaycastHit2D hitP = Physics2D.Raycast(p, Vector3.back, 100, LayerMask.GetMask("PlayerTCollider"));
-                RaycastHit2D hitE = Physics2D.Raycast(p, Vector3.back, 100, LayerMask.GetMask("EnemyTCollider"));
                 if (hitP.collider != null)
-                { 
+                {
                     testMarkP.SetActive(true);
                     playerT0 = hitP.transform.gameObject;
                     testMarkP.transform.position = hitP.transform.position + new Vector3(0, 2, 0);
                     //#.선택된 캐릭터 타입
                     battleSystem.nowChoosen = hitP.transform.parent.GetComponent<Character>().characterType;
                 }
-                else if (hitE.collider != null)
+            }
+
+            if (canChooseEnemyT)
+            {
+                if (hitE.collider != null)
                 {
                     testMarkE.SetActive(true);
                     enemyT0 = hitE.transform.gameObject;
                     testMarkE.transform.position = hitE.transform.position + new Vector3(0, 2, 0);
                 }
-                else
-                {
-                    testMarkE.SetActive(false);
-                }
+            }
+
+            if(!canChooseEnemyT && !canChoosePlayerT)
+            {
+                testMarkP.SetActive(false);
+                testMarkE.SetActive(false);
+                playerT0 = null;
+                enemyT0 = null;
             }
         }
-        else
-        {
-            testMarkP.SetActive(false);
-            testMarkE.SetActive(false);
-            playerT0 = null;
-            enemyT0 = null;
-        }
     }
+    public void ResetAllTarget()
+    {
+        battleSystem.nowChoosen = CharacterType.None;
+        battleSystem.lastChoosen = CharacterType.None;
+        testMarkP.SetActive(false);
+        testMarkE.SetActive(false);
+        playerT0 = null;
+        enemyT0 = null;
+    }
+    public void ResetEnemyTarget()
+    {
+        testMarkE.SetActive(false);
+        enemyT0 = null;
+    }
+
 }

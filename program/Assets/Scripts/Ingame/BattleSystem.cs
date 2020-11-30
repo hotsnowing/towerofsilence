@@ -5,14 +5,14 @@ using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
 
-/*
- 프르팹 버튼에 함수 부여하기  
- 클릭으로 현재지정대상 정하기
- */
-
 public enum BattleState {START, PLAYERTURN, ENEMYTURN, WON, LOST }
 public enum PlayerTurnState {WaitForTurn, SelectCharacter, SelectSkillButton, SelectEnemy, CheckSkillOption}
 //JsonFile**********************************
+/*
+ * 오늘 할 거 
+ * 캐릭터 코스트, 몹 보스 코스트 관리
+ * 
+ */
 [System.Serializable]
 public class SpawnData
 {
@@ -24,6 +24,8 @@ public class CharacterSaveData
 {
     public CharacterType cType;
     //#.otherStatus
+    //....
+
 
     //#.SkillData
     public SkillData[] cSkillData;
@@ -41,7 +43,7 @@ public class CompanyBox
 }
 public class BattleSystem : MonoBehaviour
 {
-    [Header("SpawnData")]
+    [Header("CharacterSpawnPosition")]
     [SerializeField] private Vector3 playerFrontSpawnPos;
     [SerializeField] private Vector3 playerTSpawnDistance;
     [SerializeField] private Vector3 playerTHidePos;
@@ -51,10 +53,13 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private float spawnDelayTime;
     private float pFixedMoveDistance;
     private float eFixedMoveDistance;
-
+    //#.CharacterList
     private List<CompanyBox> playerTList;
     private List<GameObject> enemyTList;
-
+    [Header("CompositCost")]
+    public int playerTCompositeCost = 0;
+    public int enemyTCompositeCost = 0;
+    private int minCost = 100;
     [Header("MoveData")]
     [SerializeField] private float objMoveTime;
     [SerializeField] private SpawnData spawnData; //LoadFormJson **************
@@ -89,15 +94,9 @@ public class BattleSystem : MonoBehaviour
     public GameObject mainToolBarCanvas;
     public GameObject hpBarCanvas;
 
-    [Header("SkillManager")]
-    public SkillManager skillManager;
-
+    //#.
     private GameObject playerObj;
-    /*
-     구현해야할 것
-     클릭을 통한 공격할 유닛 선택 
-     - 선택 -> 스킬패키지 순서 변경 
-     */
+
 
     private void Awake()
     {
@@ -105,7 +104,7 @@ public class BattleSystem : MonoBehaviour
         enemyTList = new List<GameObject>();  //인게임내 적팀을 저장
 
         pFixedMoveDistance = Mathf.Abs(playerFrontSpawnPos.x - playerTHidePos.x);
-        eFixedMoveDistance = Mathf.Abs(enemyTHidePos.x - enemyFrontSpawnPos.x); 
+        eFixedMoveDistance = Mathf.Abs(enemyTHidePos.x - enemyFrontSpawnPos.x);
     }
     void Start()
     {
@@ -169,14 +168,15 @@ public class BattleSystem : MonoBehaviour
     }
 
     //#.플레이어턴 조율
+    [Header("CompromisePlayerTurn")]
     public bool isCharacterChanged;
     public bool isSkillChanged;
     private IEnumerator selectPlayerTCo;
     private IEnumerator selectSkillCo;
     private IEnumerator checkSkillOptionCo;
     private bool canChooseSkill = false;
-    public CharacterType nowChoosen = CharacterType.Player;
-    public CharacterType lastChoosen = CharacterType.Player;
+    public CharacterType nowChoosen = CharacterType.None;
+    public CharacterType lastChoosen = CharacterType.None;
     public bool ischeckingSkillOption = false;
     private SkillButton lastSkillButton;
     IEnumerator PlayerTurn()
@@ -187,13 +187,11 @@ public class BattleSystem : MonoBehaviour
 
         StartCoroutine(selectPlayerTCo = SelectPlayerT());
         yield break;
-
     }
     IEnumerator SelectPlayerT()
     {
         playerTurnState = PlayerTurnState.SelectCharacter;
-        StartCoroutine(selectSkillCo = SelectSkill()); //첫번째는 플레이어 -> 스킬선택 실행
-        ChooseCharacter.instance.isChoosing = true; //선택ON
+        ChooseCharacter.instance.canChoosePlayerT = true; //선택ON
         while (true)
         {
             //#.캐릭터 선택 변경
@@ -203,6 +201,7 @@ public class BattleSystem : MonoBehaviour
                 {
                     if(companyBox.character.GetComponent<Character>().characterType == nowChoosen)
                     {
+                        if(!canChooseSkill) StartCoroutine(selectSkillCo = SelectSkill()); //첫선택시
                         companyBox.skillPackage.transform.SetAsLastSibling();
                         break;
                     }
@@ -218,20 +217,23 @@ public class BattleSystem : MonoBehaviour
         playerTurnState = PlayerTurnState.SelectSkillButton;
         while (true)
         {
-            canChooseSkill = true;
+            canChooseSkill = true; //스킬선택 가능
             if (isCharacterChanged && playerTurnState == PlayerTurnState.SelectSkillButton) //캐릭터 변경됨
-            {
                 isCharacterChanged = false;
-            }
             yield return null;
         }
     }
     IEnumerator CheckSkillOption(SkillPackage skillPackage, SkillButton skillButton)
     {
         playerTurnState = PlayerTurnState.CheckSkillOption;
+        SkillData skillData = skillButton.skillData;
+        if (SkillManager.instance.GetBasicSkillData(skillData).isSelectEnemy)
+        {
+            //#.적
+            ChooseCharacter.instance.canChooseEnemyT = true;
+        }
         while (true)
         {
-            SkillData skillData = skillButton.GetComponent<SkillButton>().skillData;
             ischeckingSkillOption = true;
             if (isCharacterChanged)
             {
@@ -243,36 +245,57 @@ public class BattleSystem : MonoBehaviour
                 yield break;
             }
             //#.스킬에 맞게 조건충족됬는지 체크
-            if (skillManager.CheckSkillOption(skillData))
+            if (SkillManager.instance.CheckSkillOption(skillData))
             {
                 ischeckingSkillOption = false;
                 playerTurnState = PlayerTurnState.SelectSkillButton;
-                //#.조건충족 -> 버튼 재정렬
-                skillPackage.SortButtons(skillButton);
-
-                //구현 - 마나체크해서 더할지 턴넘길지 선택
-
-                StopCoroutine(selectPlayerTCo);
-                ChooseCharacter.instance.isChoosing = false;
-                StopCoroutine(selectSkillCo);
-                playerTurnState = PlayerTurnState.WaitForTurn;
-
-                //임시구현
-                StartCoroutine(PlayEnemyTurn());
-
-                yield break;
+                //#.조건충족
+                skillPackage.SortButtons(skillButton); //버튼 없에기
+                //#.CostCheck
+                playerTCompositeCost -= SkillManager.instance.GetBasicSkillData(skillData).skill_Cost[skillData.skill_Level];
+                yield return null;
+                if (CheckSkillCost())
+                {
+                    playerTurnState = PlayerTurnState.SelectCharacter;
+                    StopCoroutine(selectSkillCo);
+                    ChooseCharacter.instance.ResetAllTarget();
+                    canChooseSkill = false;
+                    yield break;
+                }
+                else
+                {
+                    //#.StopCoroutine
+                    StopCoroutine(selectPlayerTCo);
+                    ChooseCharacter.instance.canChoosePlayerT = false;
+                    ChooseCharacter.instance.canChooseEnemyT = false;
+                    StopCoroutine(selectSkillCo);
+                    playerTurnState = PlayerTurnState.WaitForTurn;
+                    yield break;
+                }
             }
             yield return null;
         }
     }
+    private bool CheckSkillCost()
+    {
+        int temp = 0;
+        foreach (CompanyBox companyBox in playerTList)
+        {
+            temp = companyBox.skillPackage.GetComponent<SkillPackage>().minCost;
+            if (minCost >= temp) minCost = temp;
+        }
+        return minCost >= temp;
+    }
     public void ActivateSkill(SkillPackage skillPackage, SkillButton skillButton)
     {
+        //#.플레이어턴에 눌러야함 || 스킬을 선택가능할 때
         if (battleState != BattleState.PLAYERTURN || !canChooseSkill) return;
         if (ischeckingSkillOption)
         {
             isSkillChanged = true;
             lastSkillButton.GetComponent<Animator>().SetTrigger("Pressed");
             StopCoroutine(checkSkillOptionCo);
+            ChooseCharacter.instance.ResetEnemyTarget();
             lastSkillButton = skillButton;
         }
         if (!lastSkillButton)
@@ -280,7 +303,6 @@ public class BattleSystem : MonoBehaviour
             isCharacterChanged = false; //스킬버튼이 첫선택이라면 캐릭터 변경이 무의미하다.
             lastSkillButton = skillButton;
         } 
-
         //#.Check
         StartCoroutine(checkSkillOptionCo = CheckSkillOption(skillPackage, skillButton));
     }
@@ -300,43 +322,38 @@ public class BattleSystem : MonoBehaviour
             skillPackage.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //사이즈
             skillPackage.GetComponent<SkillPackage>().battleSystem = this; //프리펩에 객체 넣어주기
             SkillPackage skPk = skillPackage.GetComponent<SkillPackage>();
-
             //#.SpawnData로 부터 해당 인덱스의 스킬데이터를 받아옴 -> 스킬패키지 내용 구성
             SkillData[] skSt = spawnData.playerTSD[i].cSkillData;
-            //#.박스에 오브젝트와 스킬페키지를 넣는다.
-            CompanyBox companyBox = new CompanyBox(MakeObj(pT[i].cType), skillPackage);
+            //#.CompanyBox에 오브젝트와 스킬페키지를 넣는다.
+            GameObject characterObj = MakeObj(pT[i].cType);
+            //#.Composite Cost
+            playerTCompositeCost += characterObj.GetComponent<Character>().curCost;
+            CompanyBox companyBox = new CompanyBox(characterObj, skillPackage);
             if(companyBox.character.tag == "Player")
-            {
                 playerObj = companyBox.character;
-            }
             //#.스킬버튼에 랜덤으로 스킬부여
             List<int> list = MixOrder(skSt.Length);
             List<SkillData> transSkillData = new List<SkillData>();
             for(int j=0; j<list.Count; j++)
             {
-                //#.랜덤값에 따라 스킬데이터 저장
-                transSkillData.Add(skSt[j]);
+                SkillData temp = skSt[list[j]];
+                int tempCost = SkillManager.instance.GetBasicSkillData(temp).skill_Cost[temp.skill_Level];
+                if (tempCost <= minCost)
+                    minCost = tempCost;
+                transSkillData.Add(temp);
             }
             //#.스킬데이터 전달.
             skPk.spawnSkillData = transSkillData;
             //#.스킬패키지 작동
             skPk.StartSkillPackage();
-
             //#.안보이는 위치로 이동
             companyBox.character.transform.position = playerTHidePos;
-
             //#.플레이어 리스트에 추가
             playerTList.Add(companyBox);
         }
-        //#.Sort
+        //#.차례대로 정렬
         foreach (CompanyBox pTobj in playerTList)
         {
-            //#.보이는 순서 지정 첫번째는 플레이어로 하고 다음부턴 선택으로
-            if (pTobj.character.GetComponent<Character>().characterType == CharacterType.Player)
-            {
-                //#.플레이어에게 첫번째 위치부여
-                pTobj.skillPackage.transform.SetAsLastSibling();
-            }
             StartCoroutine(MoveObject(pTobj.character, nowSpawnPos, pFixedMoveDistance));
             nowSpawnPos += playerTSpawnDistance; 
             yield return new WaitForSeconds(spawnDelayTime); //SpawnDelay
@@ -349,9 +366,10 @@ public class BattleSystem : MonoBehaviour
         //#.Spawn
         for(int i=0; i<pT.Count; i++)
         {
-            GameObject gameObject = MakeObj(pT[i].cType);
-            gameObject.transform.position = enemyTHidePos;
-            enemyTList.Add(gameObject);
+            GameObject enemyObject = MakeObj(pT[i].cType);
+            enemyTCompositeCost += enemyObject.GetComponent<Character>().curCost;
+            enemyObject.transform.position = enemyTHidePos;
+            enemyTList.Add(enemyObject);
         }
         //#.Sort
         foreach(GameObject pTobj in enemyTList)
@@ -404,8 +422,10 @@ public class BattleSystem : MonoBehaviour
         {
             //#.오브젝트에 hpBar할당
             GameObject hpBar = Instantiate(hpBarPrefab);
+            hpBar.GetComponent<HpSlider>().targetCharacter = go.GetComponent<Character>();
             hpBar.transform.SetParent(hpBarCanvas.transform);
-            hpBar.GetComponent<HPBar>().SethpSlider(go);
+            hpBar.transform.localScale = new Vector3(0.15f, 0.3f, 1);
+            hpBar.transform.localPosition = new Vector3(1, 1, 1);
         }
         else
         {
@@ -442,10 +462,7 @@ public class BattleSystem : MonoBehaviour
     {
         int[] num = new int[n];
         List<int> list = new List<int>();
-        for(int i=0; i<num.Length; i++)
-        {
-            num[i] = 0;
-        }
+        for(int i=0; i<num.Length; i++) num[i] = 0;
         while (true)
         {
             int rand = Random.Range(0, num.Length);

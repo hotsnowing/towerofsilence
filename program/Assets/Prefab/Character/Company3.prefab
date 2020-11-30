@@ -126,11 +126,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e526dc984d742fd42b9496b40ea27722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 4
+  characterType: 5
   maxHp: 100
   currentHp: 100
   atkPower: 10
   maxCost: 5
+  curCost: 0
   height: -0.25
 --- !u!1 &9191909179932659172
 GameObject:

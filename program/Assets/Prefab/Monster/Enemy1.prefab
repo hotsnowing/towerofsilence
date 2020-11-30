@@ -183,9 +183,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e526dc984d742fd42b9496b40ea27722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 6
+  characterType: 7
   maxHp: 50
   currentHp: 50
   atkPower: 5
   maxCost: 5
+  curCost: 0
   height: -0.25

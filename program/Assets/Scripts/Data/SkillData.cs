@@ -2,23 +2,11 @@
 public class SkillData
 {
     #region Serializable
-    public int index;
-    public EnumSkillUser skillUser;
-    public EnumSkillType skillType;
-    public int Level;
+    public int skill_Id;
+    public EnumSkillType skill_Type;
+    public int skill_Level;
     #endregion
 }
-public enum EnumSkillUser 
-{ 
-    Player,
-    Company0,
-    Company1,
-    Company2,
-    Company3,
-    Enemy0,
-    Enemy1,
-}
-
 public enum EnumSkillType
 {
     Skill1,
@@ -26,5 +14,10 @@ public enum EnumSkillType
     Skill3,
     Skill4,
     Skill5,
+    Skill6,
+    Skill7,
+    Skill8,
+    Skill9,
+    Skill10
 }
 
