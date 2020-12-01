@@ -6,6 +6,10 @@ public enum CharacterType
 {
     None, Player, Company0, Company1, Company2, Company3, Enemy0, Enemy1
 }
+public enum CharacterJob 
+{
+    Knight, Priest, Hunter, Assassin
+}
 public class Character : MonoBehaviour
 {
     [Header("BasicData")]

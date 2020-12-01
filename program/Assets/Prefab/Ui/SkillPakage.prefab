@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 1558568882733375353}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 1639725407001110895}
   m_RootOrder: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -66,7 +66,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -105,7 +105,7 @@ RectTransform:
   m_GameObject: {fileID: 2161377046865778492}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 7710654744160819114}
   m_RootOrder: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -144,7 +144,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.89987373, a: 1}
+  m_Color: {r: 1, g: 0.5896226, b: 0.95815766, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -302,12 +302,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 5
   text: {fileID: 3803880448792592973}
-  skillData:
-    index: 0
-    skillUser: 0
-    skillType: 0
-    level: 0
-    cost: 0
+  skillDataBox:
+    skill_Id: 0
+    skill_Level: 0
 --- !u!95 &8385133990005515785
 Animator:
   serializedVersion: 3
@@ -389,7 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.5615012, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.7576027, b: 0.4481132, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -473,12 +470,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 1
   text: {fileID: 6816760240851878402}
-  skillData:
-    index: 0
-    skillUser: 0
-    skillType: 0
-    level: 0
-    cost: 0
+  skillDataBox:
+    skill_Id: 0
+    skill_Level: 0
 --- !u!95 &8556016812064408097
 Animator:
   serializedVersion: 3
@@ -525,7 +519,7 @@ RectTransform:
   m_GameObject: {fileID: 5104179240923745205}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 2616379199564557383}
   m_RootOrder: 0
@@ -556,7 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -564,7 +558,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -603,7 +597,7 @@ RectTransform:
   m_GameObject: {fileID: 5164150777555992503}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 8515385429809208209}
   m_RootOrder: 0
@@ -634,7 +628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -642,7 +636,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -716,7 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.11748028, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.5546614, g: 1, b: 0.495283, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -800,12 +794,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 3
   text: {fileID: 2774453648968406081}
-  skillData:
-    index: 0
-    skillUser: 0
-    skillType: 0
-    level: 0
-    cost: 0
+  skillDataBox:
+    skill_Id: 0
+    skill_Level: 0
 --- !u!95 &1074967026219400927
 Animator:
   serializedVersion: 3
@@ -887,7 +878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.96469927, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.9626746, g: 0.9811321, b: 0.45817015, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -971,12 +962,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 2
   text: {fileID: 4793241260542727122}
-  skillData:
-    index: 0
-    skillUser: 0
-    skillType: 0
-    level: 0
-    cost: 0
+  skillDataBox:
+    skill_Id: 0
+    skill_Level: 0
 --- !u!95 &3404212310011020946
 Animator:
   serializedVersion: 3
@@ -1058,7 +1046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.4764151, b: 0.4764151, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1142,12 +1130,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   text: {fileID: 8249749166288692064}
-  skillData:
-    index: 0
-    skillUser: 0
-    skillType: 0
-    level: 0
-    cost: 0
+  skillDataBox:
+    skill_Id: 0
+    skill_Level: 0
 --- !u!95 &5918547131918562303
 Animator:
   serializedVersion: 3
@@ -1194,7 +1179,7 @@ RectTransform:
   m_GameObject: {fileID: 8249749166288692066}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 8249749165492563660}
   m_RootOrder: 0
@@ -1225,7 +1210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1233,7 +1218,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1338,7 +1323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d370e6c43d37d4499af8ffe743e081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnSkillData: []
+  spawnSkill_DataBox: []
   skillButtons:
   - {fileID: 8249749165492563663}
   - {fileID: 4056533682527827292}
@@ -1350,6 +1335,7 @@ MonoBehaviour:
   buttonDistance: 105
   buttonMoveDelayTime: 0.13
   battleSystem: {fileID: 0}
+  minCost: 100
 --- !u!1 &8347661174291813841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1377,7 +1363,7 @@ RectTransform:
   m_GameObject: {fileID: 8347661174291813841}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 3349415787472866470}
   m_RootOrder: 0
@@ -1408,7 +1394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1416,7 +1402,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1490,7 +1476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.2048912, b: 1, a: 1}
+  m_Color: {r: 0.48584908, g: 0.59069544, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1574,12 +1560,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 4
   text: {fileID: 3948146049593640254}
-  skillData:
-    index: 0
-    skillUser: 0
-    skillType: 0
-    level: 0
-    cost: 0
+  skillDataBox:
+    skill_Id: 0
+    skill_Level: 0
 --- !u!95 &6282022070549837627
 Animator:
   serializedVersion: 3

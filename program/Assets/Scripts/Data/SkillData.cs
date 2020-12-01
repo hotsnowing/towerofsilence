@@ -1,23 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 [System.Serializable]
-public class SkillData
+public enum EnumSkillType { skill }
+[System.Serializable]
+public class SkillDataBox//Id와 Level을 가진 컨테이너
 {
-    #region Serializable
     public int skill_Id;
-    public EnumSkillType skill_Type;
     public int skill_Level;
-    #endregion
+    public SkillDataBox(int skill_Id, int skill_Level)
+    {
+        this.skill_Id = skill_Id;
+        this.skill_Level = skill_Level;
+    }
 }
-public enum EnumSkillType
+[System.Serializable]
+public class SkillData//SkillData - 직업중 10개의 스킬의 레벨을 시작전 입력받음
 {
-    Skill1,
-    Skill2,
-    Skill3,
-    Skill4,
-    Skill5,
-    Skill6,
-    Skill7,
-    Skill8,
-    Skill9,
-    Skill10
+    public CharacterJob characterJob;
+    [Header("--Skill_Level--")]
+    public int[] skill_Level;
+    public int GetSkill_Level(int index)
+    {
+        return skill_Level[index];
+    }
 }
-

@@ -20,15 +20,12 @@ public class SpawnData
     public List<CharacterSaveData> enemyTSD;
 }
 [System.Serializable]
-public class CharacterSaveData 
+public class CharacterSaveData
 {
     public CharacterType cType;
-    //#.otherStatus
-    //....
-
-
+    public CharacterJob cJob;
     //#.SkillData
-    public SkillData[] cSkillData;
+    public SkillData skillData;
 }
 //******************************************
 public class CompanyBox
@@ -223,11 +220,10 @@ public class BattleSystem : MonoBehaviour
             yield return null;
         }
     }
-    IEnumerator CheckSkillOption(SkillPackage skillPackage, SkillButton skillButton)
+    IEnumerator CheckSkillOption(SkillPackage skillPackage, SkillButton skillButton, SkillDataBox skillDataBox)
     {
         playerTurnState = PlayerTurnState.CheckSkillOption;
-        SkillData skillData = skillButton.skillData;
-        if (SkillManager.instance.GetBasicSkillData(skillData).isSelectEnemy)
+        if (SkillManager.instance.GetBasicSkillData(skillDataBox.skill_Id).isSelectEnemy)
         {
             //#.적
             ChooseCharacter.instance.canChooseEnemyT = true;
@@ -245,14 +241,14 @@ public class BattleSystem : MonoBehaviour
                 yield break;
             }
             //#.스킬에 맞게 조건충족됬는지 체크
-            if (SkillManager.instance.CheckSkillOption(skillData))
+            if (SkillManager.instance.CheckSkillOption(skillDataBox))
             {
                 ischeckingSkillOption = false;
                 playerTurnState = PlayerTurnState.SelectSkillButton;
                 //#.조건충족
                 skillPackage.SortButtons(skillButton); //버튼 없에기
                 //#.CostCheck
-                playerTCompositeCost -= SkillManager.instance.GetBasicSkillData(skillData).skill_Cost[skillData.skill_Level];
+                playerTCompositeCost -= SkillManager.instance.GetBasicSkillData(skillDataBox.skill_Id).skill_Cost;
                 yield return null;
                 if (CheckSkillCost())
                 {
@@ -304,7 +300,8 @@ public class BattleSystem : MonoBehaviour
             lastSkillButton = skillButton;
         } 
         //#.Check
-        StartCoroutine(checkSkillOptionCo = CheckSkillOption(skillPackage, skillButton));
+        StartCoroutine(checkSkillOptionCo = CheckSkillOption(skillPackage, skillButton, 
+            new SkillDataBox(skillButton.skillDataBox.skill_Id, skillButton.skillDataBox.skill_Level)));
     }
     //#.SpawnSystem
     IEnumerator SpawnPlayerT()
@@ -321,9 +318,9 @@ public class BattleSystem : MonoBehaviour
             skillPackage.GetComponent<RectTransform>().localPosition = new Vector3(-200, -20, 0); //스폰좌표
             skillPackage.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //사이즈
             skillPackage.GetComponent<SkillPackage>().battleSystem = this; //프리펩에 객체 넣어주기
-            SkillPackage skPk = skillPackage.GetComponent<SkillPackage>();
+            SkillPackage tempSkill_Pakage = skillPackage.GetComponent<SkillPackage>();
             //#.SpawnData로 부터 해당 인덱스의 스킬데이터를 받아옴 -> 스킬패키지 내용 구성
-            SkillData[] skSt = spawnData.playerTSD[i].cSkillData;
+            SkillData tempSkill_Data = spawnData.playerTSD[i].skillData;
             //#.CompanyBox에 오브젝트와 스킬페키지를 넣는다.
             GameObject characterObj = MakeObj(pT[i].cType);
             //#.Composite Cost
@@ -331,21 +328,26 @@ public class BattleSystem : MonoBehaviour
             CompanyBox companyBox = new CompanyBox(characterObj, skillPackage);
             if(companyBox.character.tag == "Player")
                 playerObj = companyBox.character;
-            //#.스킬버튼에 랜덤으로 스킬부여
-            List<int> list = MixOrder(skSt.Length);
-            List<SkillData> transSkillData = new List<SkillData>();
-            for(int j=0; j<list.Count; j++)
+            //#.스킬은 총5개를 랜덤으로 생성
+            List<int> random_List = new List<int>();
+            List<SkillDataBox> transSkill_DataBox = new List<SkillDataBox>();
+            for (int j=0; j<5; j++)
             {
-                SkillData temp = skSt[list[j]];
-                int tempCost = SkillManager.instance.GetBasicSkillData(temp).skill_Cost[temp.skill_Level];
+                //******************추후수정가능 10개중 랜덤 생성
+                random_List.Add(Random.Range(0, 10));
+            }
+            foreach(int tempSkill_Index in random_List)
+            {
+                int tempSkill_Id = SkillManager.instance.GetSkill_Id(tempSkill_Data.characterJob, tempSkill_Index);
+                int tempCost = SkillManager.instance.GetBasicSkillData(tempSkill_Id).skill_Cost;
                 if (tempCost <= minCost)
                     minCost = tempCost;
-                transSkillData.Add(temp);
+                transSkill_DataBox.Add(new SkillDataBox(tempSkill_Id, tempSkill_Data.GetSkill_Level(tempSkill_Index)));
             }
             //#.스킬데이터 전달.
-            skPk.spawnSkillData = transSkillData;
+            tempSkill_Pakage.spawnSkill_DataBox = transSkill_DataBox;
             //#.스킬패키지 작동
-            skPk.StartSkillPackage();
+            tempSkill_Pakage.StartSkillPackage();
             //#.안보이는 위치로 이동
             companyBox.character.transform.position = playerTHidePos;
             //#.플레이어 리스트에 추가
@@ -455,25 +457,6 @@ public class BattleSystem : MonoBehaviour
     float DecreaseFunc(float x)
     {
         return -Mathf.Pow(x - 1, 2) + 1;
-    }
-
-    //#.Mix
-    private List<int> MixOrder(int n)
-    {
-        int[] num = new int[n];
-        List<int> list = new List<int>();
-        for(int i=0; i<num.Length; i++) num[i] = 0;
-        while (true)
-        {
-            int rand = Random.Range(0, num.Length);
-            if(num[rand] == 0)
-            {
-                num[rand] = 1;
-                list.Add(rand);
-            }
-            if (list.Count == num.Length) break;
-        }
-        return list;
     }
 }
 

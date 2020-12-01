@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class SkillPackage : MonoBehaviour
 {
     [Header("SpawnSkillList")]
-    public List<SkillData> spawnSkillData; //생성할 스킬버튼의 종류및 수 리스트
+    public List<SkillDataBox> spawnSkill_DataBox; //생성할 스킬버튼의 종류및 수 리스트
     private int skillNumberListIndex;
 
     [Header("SkillButtons")]
@@ -34,7 +33,7 @@ public class SkillPackage : MonoBehaviour
 
     private void Awake()
     {
-        spawnSkillData = new List<SkillData>();
+        spawnSkill_DataBox = new List<SkillDataBox>();
 
         numOfSkillButton = skillButtons.Length;
     }
@@ -44,13 +43,13 @@ public class SkillPackage : MonoBehaviour
         if(battleSystem.playerTurnState == PlayerTurnState.SelectSkillButton || battleSystem.playerTurnState == PlayerTurnState.CheckSkillOption)
         {
             //#.선택가능한것만 Enabled로 바꾼다.
-            foreach(GameObject tempSkillButton in skillButtons)
+            foreach(GameObject tempSkill_Button in skillButtons)
             {
-                SkillData skillData = tempSkillButton.GetComponent<SkillButton>().skillData;
-                int tempCost = SkillManager.instance.GetBasicSkillData(skillData).skill_Cost[skillData.skill_Level];
-                if (battleSystem.playerTCompositeCost >= tempCost && tempSkillButton.activeSelf)
+                int temp_Id = tempSkill_Button.GetComponent<SkillButton>().skillDataBox.skill_Id;
+                int tempCost = SkillManager.instance.GetBasicSkillData(temp_Id).skill_Cost;
+                if (battleSystem.playerTCompositeCost >= tempCost && tempSkill_Button.activeSelf)
                 {
-                    tempSkillButton.GetComponent<Button>().interactable = true;
+                    tempSkill_Button.GetComponent<Button>().interactable = true;
                     //#.사용가능 스킬중 가장 코스트가 낮은 것을 찾는다.
                     if (minCost >= tempCost)
                         minCost = tempCost;
@@ -64,8 +63,8 @@ public class SkillPackage : MonoBehaviour
         }
         else
         {
-            foreach (GameObject sB in skillButtons)
-                sB.GetComponent<Button>().interactable = false;
+            foreach (GameObject tempSkill_Button in skillButtons)
+                tempSkill_Button.GetComponent<Button>().interactable = false;
         }
     }
     public void StartSkillPackage()
@@ -94,10 +93,10 @@ public class SkillPackage : MonoBehaviour
             //#.SkillButtonScript
             skillButtonLogic[i] = skillButtons[i].GetComponent<SkillButton>();
 
-            if(i < spawnSkillData.Count)
+            if(i < spawnSkill_DataBox.Count)
             {
                 //#.버튼넘버(속성) 부여
-                skillButtonLogic[i].skillData = GiveSkillData();
+                skillButtonLogic[i].skillDataBox = GiveSkill_DataBox();
                 skillButtonLogic[i].SetText();
             }
 
@@ -138,7 +137,7 @@ public class SkillPackage : MonoBehaviour
             skillButtonsRT[buttonIndexArray[numOfSkillButton - 1]].anchoredPosition = buttonSpawnPos[numOfSkillButton - 1];
             skillButtons[buttonIndexArray[numOfSkillButton - 1]].GetComponent<Button>().interactable = false;
             skillButtons[buttonIndexArray[numOfSkillButton - 1]].SetActive(false);
-            if (skillNumberListIndex == spawnSkillData.Count) //모든 버튼이 생성됨
+            if (skillNumberListIndex == spawnSkill_DataBox.Count) //모든 버튼이 생성됨
             {
                 numOfActiveSkillButton--; //누른 버튼을 버림
             }
@@ -148,12 +147,13 @@ public class SkillPackage : MonoBehaviour
                 skillButton.index = numOfSkillButton - 1;
 
                 //#.버튼넘버(속성) 부여
-                skillButton.skillData = GiveSkillData();
+                skillButton.skillDataBox = GiveSkill_DataBox();
             }
         }
         else //첫 스폰일 떄
         {
-            numOfActiveSkillButton = spawnSkillData.Count >= numOfSkillButton ? numOfSkillButton : spawnSkillData.Count;
+            numOfActiveSkillButton = spawnSkill_DataBox.Count >= numOfSkillButton ? 
+                numOfSkillButton : spawnSkill_DataBox.Count;
         }
         //#.누르지않은 버튼 부드러운 이동
         while (curIndex < numOfActiveSkillButton)
@@ -205,8 +205,8 @@ public class SkillPackage : MonoBehaviour
     }
 
     //#.미완
-    private SkillData GiveSkillData()
+    private SkillDataBox GiveSkill_DataBox()
     {
-        return spawnSkillData[skillNumberListIndex++];
+        return spawnSkill_DataBox[skillNumberListIndex++];
     }
 }

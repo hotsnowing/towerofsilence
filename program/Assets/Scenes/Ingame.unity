@@ -296,75 +296,36 @@ MonoBehaviour:
   spawnData:
     playerTSD:
     - cType: 1
-      cSkillData:
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 1
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 1
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 1
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 1
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
+      cJob: 0
+      skillData:
+        characterJob: 0
+        skill_Level: 01000000010000000100000001000000010000000100000001000000010000000100000001000000
     - cType: 2
-      cSkillData:
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
+      cJob: 0
+      skillData:
+        characterJob: 0
+        skill_Level: 01000000010000000100000001000000010000000100000001000000010000000100000001000000
     - cType: 3
-      cSkillData:
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
+      cJob: 0
+      skillData:
+        characterJob: 0
+        skill_Level: 01000000010000000100000001000000010000000100000001000000010000000100000001000000
     - cType: 4
-      cSkillData:
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
+      cJob: 0
+      skillData:
+        characterJob: 0
+        skill_Level: 01000000010000000100000001000000010000000100000001000000010000000100000001000000
     enemyTSD:
     - cType: 6
-      cSkillData:
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
+      cJob: 0
+      skillData:
+        characterJob: 0
+        skill_Level: 
     - cType: 7
-      cSkillData:
-      - skill_Id: 0
-        skill_Type: 0
-        skill_Level: 0
+      cJob: 0
+      skillData:
+        characterJob: 0
+        skill_Level: 
   playerPrefab: {fileID: 1448356056797234742, guid: 71bd74d4b8c3e2c4cbf0f50ffdabb4af,
     type: 3}
   company0Prefab: {fileID: 3432158601642917297, guid: 3a75ea88ec4749d4185aa5aa0ee0db55,
@@ -732,6 +693,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill_Icons:
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &641331750
 GameObject:
