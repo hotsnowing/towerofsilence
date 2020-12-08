@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum SkillType {Attack, Defense, Buff}
 
 public class BasicSkillData : MonoBehaviour
 {
     public int skill_Id;
+    public SkillType skill_Type;
     public Sprite skill_Icon;
     public string skill_Name;
     public int skill_Cost;
@@ -12,9 +14,10 @@ public class BasicSkillData : MonoBehaviour
     public string skill_Content;
     public bool isSelectEnemy;
 
-    public BasicSkillData(int skill_Id, Sprite skill_Icon, string skill_Name, int skill_Cost, int[ , ] skill_Variable, string skill_Content, bool isSelectEnemy)
+    public BasicSkillData(int skill_Id, SkillType skill_Type, Sprite skill_Icon, string skill_Name, int skill_Cost, int[ , ] skill_Variable, string skill_Content, bool isSelectEnemy)
     {
         this.skill_Id = skill_Id;
+        this.skill_Type = skill_Type;
         this.skill_Icon = skill_Icon;
         this.skill_Name = skill_Name;
         this.skill_Cost = skill_Cost;

@@ -10,6 +10,7 @@ TagManager:
   - Company3
   - Enemy0
   - Enemy1
+  - BattleSystem
   layers:
   - Default
   - TransparentFX

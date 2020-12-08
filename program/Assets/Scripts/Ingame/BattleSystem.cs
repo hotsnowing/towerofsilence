@@ -323,8 +323,9 @@ public class BattleSystem : MonoBehaviour
             SkillData tempSkill_Data = spawnData.playerTSD[i].skillData;
             //#.CompanyBox에 오브젝트와 스킬페키지를 넣는다.
             GameObject characterObj = MakeObj(pT[i].cType);
+            characterObj.GetComponent<Character>().characterSide = CharacterSide.Player;
             //#.Composite Cost
-            playerTCompositeCost += characterObj.GetComponent<Character>().curCost;
+            Plus_Cost(characterObj.GetComponent<Character>().curCost, CharacterSide.Player);
             CompanyBox companyBox = new CompanyBox(characterObj, skillPackage);
             if(companyBox.character.tag == "Player")
                 playerObj = companyBox.character;
@@ -369,7 +370,8 @@ public class BattleSystem : MonoBehaviour
         for(int i=0; i<pT.Count; i++)
         {
             GameObject enemyObject = MakeObj(pT[i].cType);
-            enemyTCompositeCost += enemyObject.GetComponent<Character>().curCost;
+            enemyObject.GetComponent<Character>().characterSide = CharacterSide.Enemy;
+            Plus_Cost(enemyObject.GetComponent<Character>().curCost, CharacterSide.Enemy);
             enemyObject.transform.position = enemyTHidePos;
             enemyTList.Add(enemyObject);
         }
@@ -434,6 +436,33 @@ public class BattleSystem : MonoBehaviour
             Debug.LogError("존재하지않는 오브젝트, BattleSystem");
         }
         return go;
+    }
+    //오브젝트 전달 
+    public List<GameObject> GetEnemyTObjectList()
+    {
+        return enemyTList;
+    }
+    public List<GameObject> GetPlayerTObjectList()
+    {
+        List<GameObject> tempList = new List<GameObject>();
+        foreach(CompanyBox tempCB in playerTList)
+            tempList.Add(tempCB.character);
+        return tempList;
+    }
+    //SetCost
+    public void Plus_Cost(int plus_cost, CharacterSide characterSide)
+    {
+        if(characterSide == CharacterSide.Player)
+            playerTCompositeCost += plus_cost;
+        else
+            enemyTCompositeCost += plus_cost;
+    }
+    public void Minus_Cost(int minus_cost, CharacterSide characterSide)
+    {
+        if (characterSide == CharacterSide.Player)
+            playerTCompositeCost -= minus_cost;
+        else
+            enemyTCompositeCost -= minus_cost;
     }
     //#.Json 
     [ContextMenu("To Json Data")]

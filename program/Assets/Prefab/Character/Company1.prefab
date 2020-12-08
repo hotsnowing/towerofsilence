@@ -133,6 +133,14 @@ MonoBehaviour:
   maxCost: 5
   curCost: 0
   height: -0.25
+  characterState: 0
+  amountOfArmor: 0
+  isReflectDamage: 0
+  isStun: 0
+  isPoisoned: 0
+  isCloaking: 0
+  maxShield: 10
+  curShield: 0
 --- !u!1 &7841707906550543868
 GameObject:
   m_ObjectHideFlags: 0

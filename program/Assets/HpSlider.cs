@@ -22,11 +22,15 @@ public class HpSlider : MonoBehaviour
     [Header("MainColor")]
     public Color color;
 
+    [Header("Sheild")]
+    public SheildSlider sheildSlider;
+
     private float mt;
     private float dt;
-
     private void LateUpdate()
     {
+        if (!sheildSlider.targetCharacter) sheildSlider.targetCharacter = targetCharacter;
+
         transform.position = targetCharacter.transform.position + distance;
 
         curValue = targetCharacter.currentHp;

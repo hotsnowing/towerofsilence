@@ -11,8 +11,8 @@ public class ChooseCharacter : MonoBehaviour
     public bool canChooseEnemyT;
 
     [Header("Choosen")]
-    public GameObject playerT0;
-    public GameObject enemyT0;
+    public GameObject skill_User_Collider;
+    public GameObject skill_Target_Collider;
 
     static public ChooseCharacter instance;
     #region singleton
@@ -42,7 +42,7 @@ public class ChooseCharacter : MonoBehaviour
                 if (hitP.collider != null)
                 {
                     testMarkP.SetActive(true);
-                    playerT0 = hitP.transform.gameObject;
+                    skill_User_Collider = hitP.transform.gameObject;
                     testMarkP.transform.position = hitP.transform.position + new Vector3(0, 2, 0);
                     //#.선택된 캐릭터 타입
                     battleSystem.nowChoosen = hitP.transform.parent.GetComponent<Character>().characterType;
@@ -54,7 +54,7 @@ public class ChooseCharacter : MonoBehaviour
                 if (hitE.collider != null)
                 {
                     testMarkE.SetActive(true);
-                    enemyT0 = hitE.transform.gameObject;
+                    skill_Target_Collider = hitE.transform.gameObject;
                     testMarkE.transform.position = hitE.transform.position + new Vector3(0, 2, 0);
                 }
             }
@@ -63,10 +63,20 @@ public class ChooseCharacter : MonoBehaviour
             {
                 testMarkP.SetActive(false);
                 testMarkE.SetActive(false);
-                playerT0 = null;
-                enemyT0 = null;
+                skill_User_Collider = null;
+                skill_Target_Collider = null;
             }
         }
+    }
+    public GameObject GetSkill_User()
+    {
+        if (skill_User_Collider) return skill_User_Collider.transform.parent.gameObject;
+        return null;
+    }
+    public GameObject GetSkill_Target()
+    {
+        if (skill_Target_Collider) return skill_Target_Collider.transform.parent.gameObject;
+        return null;
     }
     public void ResetAllTarget()
     {
@@ -74,13 +84,18 @@ public class ChooseCharacter : MonoBehaviour
         battleSystem.lastChoosen = CharacterType.None;
         testMarkP.SetActive(false);
         testMarkE.SetActive(false);
-        playerT0 = null;
-        enemyT0 = null;
+        skill_User_Collider = null;
+        skill_Target_Collider = null;
+    }
+    public void Set_Target_And_User(GameObject user = null, GameObject target = null)
+    {
+        skill_User_Collider = user;
+        skill_Target_Collider = target;
     }
     public void ResetEnemyTarget()
     {
         testMarkE.SetActive(false);
-        enemyT0 = null;
+        skill_Target_Collider = null;
     }
 
 }
